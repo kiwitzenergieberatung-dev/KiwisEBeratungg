@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
   <html lang="de">
     <head>
@@ -155,16 +156,13 @@
       }
       
       .cta a {
-        display: inline-block;
-        padding: 14px 20px;
-        border-radius: 12px;
-        background: #14532d;
-          color: #fff;
+        color: #14532d;
           text-decoration: none;
+        font-weight: 700;
       }
       
       .cta a:hover {
-        background: #166534;
+        text-decoration: underline;
       }
       
       .notice {
@@ -211,6 +209,7 @@
         <option value="verbrauch">Energieverbrauchsausweis</option>
         <option value="bafa">Begleitung BAFA-Einzelmaßnahme</option>
         <option value="heizlast">Heizlastberechnung / hydraulischer Abgleich / KfW-Heizungsförderung</option>
+        <option value="nonres">Nichtwohngebäude</option>
         </select>
         </div>
         
@@ -265,9 +264,11 @@
         <div class="explanation" id="resultExplanation"></div>
         
         <div class="cta">
-        <a href="https://deine-webseite.de/kontakt" target="_blank" rel="noopener noreferrer">
-        Jetzt unverbindlich anfragen
-      </a>
+        <div style="line-height: 1.8;">
+        <strong>Jetzt unverbindlich anfragen:</strong><br><br>
+         Telefon: <a href="tel:0157 77055626">dummy</a><br>
+         E-Mail: <a href="mailto: kiwitz.energieberatung@gmail.com">dummy</a>
+        </div>
         </div>
         
         <div class="notice">
@@ -315,6 +316,13 @@
           extraUnitNet: 80.00,
           fundingType: "half",
           note: "Ab der zweiten Wohneinheit werden je 80,00 € netto zusätzlich berechnet."
+        },
+        nonres: {
+          name: "Nichtwohngebäude",
+          baseNet: 0,
+          extraUnitNet: 0,
+          fundingType: "custom",
+          note: "Preis auf Anfrage, da je nach Gebäudeart, Nutzung und Größe erhebliche Unterschiede bestehen."
         }
       };
       
@@ -350,6 +358,26 @@
         
         if (!serviceKey) {
           alert("Bitte wählen Sie zuerst eine Leistung aus.");
+          return;
+        }
+        
+        if (serviceKey === "nonres") {
+          document.getElementById("resultService").textContent = "Nichtwohngebäude";
+          document.getElementById("resultUnits").textContent = "-";
+          document.getElementById("resultNet").textContent = "-";
+          document.getElementById("resultGross").textContent = "-";
+          document.getElementById("resultFunding").textContent = "-";
+          document.getElementById("resultOwn").textContent = "Preis auf Anfrage";
+          
+          document.getElementById("resultExplanation").innerHTML = `
+          Für Nichtwohngebäude ist eine pauschale Preisangabe nicht sinnvoll, da
+          der Aufwand stark von Größe, Nutzung und technischer Ausstattung abhängt.
+          <br><br>
+            Bitte kontaktieren Sie uns für ein individuelles Angebot.
+          `;
+          
+          document.getElementById("resultBox").style.display = "block";
+          document.getElementById("resultBox").scrollIntoView({ behavior: "smooth", block: "start" });
           return;
         }
         
@@ -421,5 +449,4 @@
       </script>
         </body>
         </html>
-        
-        
+
