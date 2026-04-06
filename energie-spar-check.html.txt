@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Energie-Spar-Check</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f7f4;
+      color: #1f2937;
+    }
+
+    .wrapper {
+      max-width: 760px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      padding: 28px;
+    }
+
+    h1 {
+      margin-top: 0;
+      font-size: 2rem;
+      text-align: center;
+      color: #14532d;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #4b5563;
+      margin-bottom: 28px;
+      line-height: 1.5;
+    }
+
+    .question {
+      margin-bottom: 24px;
+      padding: 18px;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      background: #fafafa;
+    }
+
+    .question h3 {
+      margin: 0 0 14px 0;
+      font-size: 1.05rem;
+      color: #111827;
+    }
+
+    .options {
+      display: grid;
+      gap: 10px;
+    }
+
+    label.option {
+      display: block;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid #d1d5db;
+      background: #fff;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    label.option:hover {
+      border-color: #16a34a;
+      background: #f0fdf4;
+    }
+
+    input[type="radio"] {
+      margin-right: 10px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+      justify-content: center;
+    }
+
+    button {
+      border: none;
+      border-radius: 12px;
+      padding: 14px 22px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .btn-primary {
+      background: #16a34a;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #15803d;
+    }
+
+    .btn-secondary {
+      background: #e5e7eb;
+      color: #111827;
+    }
+
+    .btn-secondary:hover {
+      background: #d1d5db;
+    }
+
+    .result {
+      display: none;
+      margin-top: 30px;
+      padding: 24px;
+      border-radius: 16px;
+      background: #ecfdf5;
+      border: 1px solid #bbf7d0;
+    }
+
+    .result h2 {
+      margin-top: 0;
+      color: #166534;
+      text-align: center;
+    }
+
+    .score-box {
+      text-align: center;
+      font-size: 1.4rem;
+      font-weight: bold;
+      margin: 12px 0 18px;
+    }
+
+    .rating {
+      text-align: center;
+      font-size: 1.2rem;
+      margin-bottom: 18px;
+    }
+
+    .recommendation {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 16px;
+      line-height: 1.6;
+      border: 1px solid #d1fae5;
+    }
+
+    .cta {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .cta a {
+      display: inline-block;
+      background: #14532d;
+      color: white;
+      text-decoration: none;
+      padding: 14px 20px;
+      border-radius: 12px;
+    }
+
+    .cta a:hover {
+      background: #166534;
+    }
+
+    .error {
+      display: none;
+      margin-top: 18px;
+      padding: 12px 14px;
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      color: #991b1b;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    @media (max-width: 600px) {
+      .wrapper {
+        margin: 20px auto;
+        padding: 12px;
+      }
+
+      .card {
+        padding: 18px;
+      }
+
+      h1 {
+        font-size: 1.6rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="card">
+      <h1>Energie-Spar-Check</h1>
+      <p class="subtitle">
+        Wie energieeffizient ist Ihr Gebäude? Beantworten Sie 7 kurze Fragen
+        und erhalten Sie eine erste Einschätzung mit Sparpotenzial.
+      </p>
+
+      <form id="energyForm">
+        <div class="question">
+          <h3>1. Wann wurde das Gebäude überwiegend errichtet?</h3>
+          <div class="options">
+            <label class="option"><input type="radio" name="q1" value="1"> Vor 1978</label>
+            <label class="option"><input type="radio" name="q1" value="2"> 1978 bis 1994</label>
+            <label class="option"><input type="radio" name="q1" value="3"> 1995 bis 2010</label>
+            <label class="option"><input type="radio" name="q1" value="4"> Nach 2010</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <h3>2. Wie würden Sie den Dämmstandard einschätzen?</h3>
+          <div class="options">
+            <label class="option"><input type="radio" name="q2" value="1"> Kaum oder gar nicht gedämmt</label>
+            <label class="option"><input type="radio" name="q2" value="2"> Teilweise modernisiert</label>
+            <label class="option"><input type="radio" name="q2" value="3"> Gut gedämmt</label>
+            <label class="option"><input type="radio" name="q2" value="4"> Sehr gut / energetisch saniert</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <h3>3. Welche Fenster sind überwiegend vorhanden?</h3>
+          <div class="options">
+            <label class="option"><input type="radio" name="q3" value="1"> Alte Einfach- oder frühe Doppelverglasung</label>
+            <label class="option"><input type="radio" name="q3" value="2"> Ältere Doppelverglasung</label>
+            <label class="option"><input type="radio" name="q3" value="3"> Moderne Wärmeschutzverglasung</label>
+            <label class="option"><input type="radio" name="q3" value="4"> Sehr neue, hochwertige Fenster</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <h3>4. Welches Heizsystem wird hauptsächlich genutzt?</h3>
+          <div class="options">
+            <label class="option"><input type="radio" name="q4" value="1"> Alte Öl- oder Gasheizung</label>
+            <label class="option"><input type="radio" name="q4" value="2"> Neuere Brennwertheizung</label>
+            <label class="option"><input type="radio" name="q4" value="3"> Hybridheizung / effizientes System</label>
+            <label class="option"><input type="radio" name="q4" value="4"> Wärmepumpe oder sehr modernes System</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <h3>5. Gibt es bereits erneuerbare Energien am Gebäude?</h3>
+          <div class="options">
+            <label class="option"><input type="radio" name="q5" value="1"> Nein</label>
+            <label class="option"><input type="radio" name="q5" value="2"> Teilweise, z. B. Solarthermie</label>
+            <label class="option"><input type="radio" name="q5" value="3"> Photovoltaik oder andere Lösung</label>
+            <label class="option"><input type="radio" name="q5" value="4"> Mehrere Systeme vorhanden</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <h3>6. Wie hoch schätzen Sie Ihren Energieverbrauch ein?</h3>
+          <div class="options">
+            <label class="option"><input type="radio" name="q6" value="1"> Eher hoch</label>
+            <label class="option"><input type="radio" name="q6" value="2"> Mittel</label>
+            <label class="option"><input type="radio" name="q6" value="3"> Eher niedrig</label>
+            <label class="option"><input type="radio" name="q6" value="4"> Sehr niedrig</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <h3>7. Wurden in den letzten 10 Jahren energetische Maßnahmen umgesetzt?</h3>
+          <div class="options">
+            <label class="option"><input type="radio" name="q7" value="1"> Nein</label>
+            <label class="option"><input type="radio" name="q7" value="2"> Kleine Einzelmaßnahmen</label>
+            <label class="option"><input type="radio" name="q7" value="3"> Mehrere sinnvolle Maßnahmen</label>
+            <label class="option"><input type="radio" name="q7" value="4"> Umfassende energetische Sanierung</label>
+          </div>
+        </div>
+
+        <div class="error" id="errorBox">
+          Bitte beantworten Sie alle Fragen.
+        </div>
+
+        <div class="actions">
+          <button type="button" class="btn-primary" onclick="calculateResult()">Ergebnis anzeigen</button>
+          <button type="reset" class="btn-secondary" onclick="resetResult()">Zurücksetzen</button>
+        </div>
+      </form>
+
+      <div class="result" id="resultBox">
+        <h2>Ihr Ergebnis</h2>
+        <div class="score-box" id="scoreText"></div>
+        <div class="rating" id="ratingText"></div>
+        <div class="recommendation" id="recommendationText"></div>
+        <div class="cta">
+          <a href="https://deine-webseite.de/kontakt" target="_blank" rel="noopener noreferrer">
+            Jetzt Beratung anfragen
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function calculateResult() {
+      const form = document.getElementById("energyForm");
+      const errorBox = document.getElementById("errorBox");
+      const resultBox = document.getElementById("resultBox");
+
+      let total = 0;
+      let answered = 0;
+
+      for (let i = 1; i <= 7; i++) {
+        const selected = form.querySelector(`input[name="q${i}"]:checked`);
+        if (selected) {
+          total += Number(selected.value);
+          answered++;
+        }
+      }
+
+      if (answered < 7) {
+        errorBox.style.display = "block";
+        resultBox.style.display = "none";
+        return;
+      }
+
+      errorBox.style.display = "none";
+
+      let rating = "";
+      let recommendation = "";
+
+      if (total <= 11) {
+        rating = "Hoher Modernisierungsbedarf";
+        recommendation = "Ihr Gebäude weist vermutlich ein deutliches energetisches Optimierungspotenzial auf. Besonders sinnvoll kann eine Prüfung von Gebäudehülle, Fenstern und Heizsystem sein. Eine individuelle Energieberatung schafft hier schnell Klarheit.";
+      } else if (total <= 17) {
+        rating = "Solide Basis mit erkennbarem Sparpotenzial";
+        recommendation = "Es wurden offenbar bereits einzelne Maßnahmen umgesetzt, dennoch besteht wahrscheinlich weiteres Einsparpotenzial. Besonders interessant sind ein abgestimmter Sanierungsfahrplan, Heizungsoptimierung und die Prüfung möglicher Fördermittel.";
+      } else if (total <= 23) {
+        rating = "Guter energetischer Zustand";
+        recommendation = "Ihr Gebäude ist energetisch bereits recht ordentlich aufgestellt. Nun lohnt sich vor allem die Prüfung gezielter Einzelmaßnahmen, um Betriebskosten weiter zu senken und die Zukunftsfähigkeit zu erhöhen.";
+      } else {
+        rating = "Sehr guter energetischer Zustand";
+        recommendation = "Ihr Gebäude scheint energetisch bereits sehr gut aufgestellt zu sein. Eine fachliche Beratung kann dennoch helfen, letzte Optimierungspotenziale zu erkennen, Fördermöglichkeiten zu prüfen und den Bestand langfristig abzusichern.";
+      }
+
+      document.getElementById("scoreText").textContent = `Gesamtpunktzahl: ${total} von 28`;
+      document.getElementById("ratingText").textContent = rating;
+      document.getElementById("recommendationText").textContent = recommendation;
+
+      resultBox.style.display = "block";
+      resultBox.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function resetResult() {
+      document.getElementById("resultBox").style.display = "none";
+      document.getElementById("errorBox").style.display = "none";
+    }
+  </script>
+</body>
+</html>
