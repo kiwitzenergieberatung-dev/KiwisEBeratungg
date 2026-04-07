@@ -1,452 +1,475 @@
 
 
 <!DOCTYPE html>
-  <html lang="de">
-    <head>
-    <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Leistungs- und Preisrechner</title>
-        <style>
-        * {
-          box-sizing: border-box;
-        }
-      
-      body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-        background: #f3f4f6;
-          color: #111827;
-      }
-      
-      .wrapper {
-        max-width: 900px;
-        margin: 40px auto;
-        padding: 20px;
-      }
-      
-      .card {
-        background: #ffffff;
-          border-radius: 18px;
-        box-shadow: 0 12px 30px rgba(0,0,0,0.08);
-        padding: 28px;
-      }
-      
-      h1 {
-        margin-top: 0;
-        font-size: 2rem;
-        text-align: center;
-        color: #14532d;
-      }
-      
-      .subtitle {
-        text-align: center;
-        color: #4b5563;
-          margin-bottom: 28px;
-        line-height: 1.5;
-      }
-      
-      .field {
-        margin-bottom: 20px;
-      }
-      
-      label {
-        display: block;
-        font-weight: 700;
-        margin-bottom: 8px;
-      }
-      
-      select, input {
-        width: 100%;
-        padding: 14px;
-        border: 1px solid #d1d5db;
-        border-radius: 12px;
-        font-size: 1rem;
-      }
-      
-      .hint {
-        margin-top: 6px;
-        font-size: 0.92rem;
-        color: #6b7280;
-      }
-      
-      .actions {
-        display: flex;
-        gap: 12px;
-        flex-wrap: wrap;
-        margin-top: 24px;
-      }
-      
-      button {
-        border: none;
-        border-radius: 12px;
-        padding: 14px 22px;
-        font-size: 1rem;
-        cursor: pointer;
-      }
-      
-      .btn-primary {
-        background: #16a34a;
-          color: #fff;
-      }
-      
-      .btn-primary:hover {
-        background: #15803d;
-      }
-      
-      .btn-secondary {
-        background: #e5e7eb;
-          color: #111827;
-      }
-      
-      .btn-secondary:hover {
-        background: #d1d5db;
-      }
-      
-      .result {
-        display: none;
-        margin-top: 28px;
-        background: #f0fdf4;
-          border: 1px solid #bbf7d0;
-        border-radius: 16px;
-        padding: 22px;
-      }
-      
-      .result h2 {
-        margin-top: 0;
-        color: #166534;
-      }
-      
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leistungs- und Preisrechner</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f3f4f6;
+      color: #111827;
+    }
+
+    .wrapper {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 18px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+      padding: 28px;
+    }
+
+    h1 {
+      margin-top: 0;
+      font-size: 2rem;
+      text-align: center;
+      color: #14532d;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #4b5563;
+      margin-bottom: 28px;
+      line-height: 1.5;
+    }
+
+    .field {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    select, input {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #d1d5db;
+      border-radius: 12px;
+      font-size: 1rem;
+    }
+
+    .hint {
+      margin-top: 6px;
+      font-size: 0.92rem;
+      color: #6b7280;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+
+    button {
+      border: none;
+      border-radius: 12px;
+      padding: 14px 22px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: #16a34a;
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: #15803d;
+    }
+
+    .btn-secondary {
+      background: #e5e7eb;
+      color: #111827;
+    }
+
+    .btn-secondary:hover {
+      background: #d1d5db;
+    }
+
+    .result {
+      display: none;
+      margin-top: 28px;
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 16px;
+      padding: 22px;
+    }
+
+    .result h2 {
+      margin-top: 0;
+      color: #166534;
+    }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(220px, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .box {
+      background: #fff;
+      border: 1px solid #dcfce7;
+      border-radius: 12px;
+      padding: 16px;
+    }
+
+    .box-title {
+      font-size: 0.95rem;
+      color: #4b5563;
+      margin-bottom: 6px;
+    }
+
+    .box-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .explanation {
+      margin-top: 20px;
+      background: #fff;
+      border-radius: 12px;
+      padding: 16px;
+      line-height: 1.6;
+      border: 1px solid #dcfce7;
+    }
+
+    .cta {
+      text-align: center;
+      margin-top: 22px;
+    }
+
+    .cta a {
+      color: #14532d;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .cta a:hover {
+      text-decoration: underline;
+    }
+
+    .notice {
+      margin-top: 18px;
+      font-size: 0.9rem;
+      color: #6b7280;
+    }
+
+    @media (max-width: 700px) {
       .result-grid {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(220px, 1fr));
-        gap: 14px;
-        margin-top: 18px;
+        grid-template-columns: 1fr;
       }
-      
-      .box {
-        background: #fff;
-          border: 1px solid #dcfce7;
-        border-radius: 12px;
-        padding: 16px;
+
+      h1 {
+        font-size: 1.6rem;
       }
-      
-      .box-title {
-        font-size: 0.95rem;
-        color: #4b5563;
-          margin-bottom: 6px;
+
+      .wrapper {
+        margin: 20px auto;
+        padding: 12px;
       }
-      
-      .box-value {
-        font-size: 1.5rem;
-        font-weight: 700;
+
+      .card {
+        padding: 18px;
       }
-      
-      .explanation {
-        margin-top: 20px;
-        background: #fff;
-          border-radius: 12px;
-        padding: 16px;
-        line-height: 1.6;
-        border: 1px solid #dcfce7;
-      }
-      
-      .cta {
-        text-align: center;
-        margin-top: 22px;
-      }
-      
-      .cta a {
-        color: #14532d;
-          text-decoration: none;
-        font-weight: 700;
-      }
-      
-      .cta a:hover {
-        text-decoration: underline;
-      }
-      
-      .notice {
-        margin-top: 18px;
-        font-size: 0.9rem;
-        color: #6b7280;
-      }
-      
-      @media (max-width: 700px) {
-        .result-grid {
-          grid-template-columns: 1fr;
-        }
-        
-        h1 {
-          font-size: 1.6rem;
-        }
-        
-        .wrapper {
-          margin: 20px auto;
-          padding: 12px;
-        }
-        
-        .card {
-          padding: 18px;
-        }
-      }
-      </style>
-        </head>
-        <body>
-        <div class="wrapper">
-        <div class="card">
-        <h1>Leistungs- und Preisrechner</h1>
-        <p class="subtitle">
-        Wählen Sie Ihre gewünschte Leistung aus und erhalten Sie direkt eine erste Preisübersicht
-      inklusive Förderung und voraussichtlichem Eigenanteil.
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="card">
+      <h1>Leistungs- und Preisrechner</h1>
+      <p class="subtitle">
+        Wählen Sie Ihre gewünschte Leistung aus und erhalten Sie direkt eine Preisübersicht.
       </p>
-        
-        <div class="field">
+
+      <div class="field">
         <label for="service">Leistung auswählen</label>
         <select id="service">
-        <option value="">Bitte auswählen</option>
-        <option value="isfp">Individueller Sanierungsfahrplan (iSFP)</option>
-        <option value="bedarf">Energiebedarfsausweis</option>
-        <option value="verbrauch">Energieverbrauchsausweis</option>
-        <option value="bafa">Begleitung BAFA-Einzelmaßnahme</option>
-        <option value="heizlast">Heizlastberechnung / hydraulischer Abgleich / KfW-Heizungsförderung</option>
-        <option value="nonres">Nichtwohngebäude</option>
+          <option value="">Bitte auswählen</option>
+          <option value="isfp">Individueller Sanierungsfahrplan (iSFP)</option>
+          <option value="bedarf">Energiebedarfsausweis</option>
+          <option value="verbrauch">Energieverbrauchsausweis</option>
+          <option value="bafa">Begleitung BAFA-Einzelmaßnahme</option>
+          <option value="heizlast">Heizlastberechnung</option>
+          <option value="hydraulik">Hydraulischer Abgleich</option>
+          <option value="kfw">KfW-Heizungsförderung</option>
+          <option value="lueftung">Lüftungskonzept</option>
+          <option value="nonres">Nichtwohngebäude</option>
         </select>
-        </div>
-        
-        <div class="field">
+      </div>
+
+      <div class="field">
         <label for="units">Anzahl der Wohneinheiten</label>
         <input type="number" id="units" min="1" value="1" />
         <div class="hint">
-        Zuschläge ab der zweiten Wohneinheit werden automatisch berücksichtigt, sofern sie für die gewählte Leistung gelten.
-      </div>
+          Zuschläge ab der zweiten Wohneinheit werden automatisch berücksichtigt, sofern sie für die gewählte Leistung gelten.
         </div>
-        
-        <div class="actions">
+      </div>
+
+      <div class="actions">
         <button class="btn-primary" onclick="calculatePrice()">Preis berechnen</button>
         <button class="btn-secondary" onclick="resetCalculator()">Zurücksetzen</button>
-        </div>
-        
-        <div class="result" id="resultBox">
-        <h2>Ihr Ergebnis</h2>
-        
-        <div class="result-grid">
-        <div class="box">
-        <div class="box-title">Leistung</div>
-        <div class="box-value" id="resultService" style="font-size:1.1rem;"></div>
-        </div>
-        
-        <div class="box">
-        <div class="box-title">Wohneinheiten</div>
-        <div class="box-value" id="resultUnits"></div>
-        </div>
-        
-        <div class="box">
-        <div class="box-title">Nettopreis</div>
-        <div class="box-value" id="resultNet"></div>
-        </div>
-        
-        <div class="box">
-        <div class="box-title">Bruttopreis</div>
-        <div class="box-value" id="resultGross"></div>
-        </div>
-        
-        <div class="box">
-        <div class="box-title">Förderung</div>
-        <div class="box-value" id="resultFunding"></div>
-        </div>
-        
-        <div class="box">
-        <div class="box-title">Ihr Eigenanteil</div>
-        <div class="box-value" id="resultOwn"></div>
-        </div>
-        </div>
-        
-        <div class="explanation" id="resultExplanation"></div>
-        
-        <div class="cta">
-        <div style="line-height: 1.8;">
-        <strong>Jetzt unverbindlich anfragen:</strong><br><br>
-         Telefon: <a href="0157 77055626">0157 77055626</a><br>
-         E-Mail: <a href="kiwitz.energieberatung@gmail.com">kiwitz.energieberatung@gmail.com</a>
-        </div>
-        </div>
-        
-        <div class="notice">
-        Hinweis: Diese Berechnung dient als erste Orientierung. Maßgeblich ist das individuelle Angebot.
       </div>
+
+      <div class="result" id="resultBox">
+        <h2>Ihr Ergebnis</h2>
+
+        <div class="result-grid">
+          <div class="box">
+            <div class="box-title">Leistung</div>
+            <div class="box-value" id="resultService" style="font-size:1.1rem;"></div>
+          </div>
+
+          <div class="box">
+            <div class="box-title">Wohneinheiten</div>
+            <div class="box-value" id="resultUnits"></div>
+          </div>
+
+          <div class="box">
+            <div class="box-title">Nettopreis</div>
+            <div class="box-value" id="resultNet"></div>
+          </div>
+
+          <div class="box">
+            <div class="box-title">Bruttopreis</div>
+            <div class="box-value" id="resultGross"></div>
+          </div>
+
+          <div class="box">
+            <div class="box-title">Förderung</div>
+            <div class="box-value" id="resultFunding"></div>
+          </div>
+
+          <div class="box">
+            <div class="box-title">Ihr Eigenanteil</div>
+            <div class="box-value" id="resultOwn"></div>
+          </div>
         </div>
+
+        <div class="explanation" id="resultExplanation"></div>
+
+        <div class="cta">
+          <div style="line-height: 1.8;">
+            <strong>Hier unverbindlich anfragen:</strong><br><br>
+            Telefon: <a href="tel:015777055626">0157 77055626</a><br>
+            E-Mail: <a href="mailto:kiwitz.energieberatung@gmail.com">kiwitz.energieberatung@gmail.com</a>
+          </div>
         </div>
+
+        <div class="notice">
+          Hinweis: Diese Berechnung ist nicht verbindlich. Maßgeblich ist das individuelle Angebot.
         </div>
-        
-        <script>
-        const VAT = 1.19;
-      
-      const services = {
-        isfp: {
-          name: "Individueller Sanierungsfahrplan (iSFP)",
-          baseNet: 1350.00,
-          extraUnitNet: 150.00,
-          fundingType: "isfp",
-          note: "Ab der zweiten Wohneinheit werden je 150,00 € netto zusätzlich berechnet."
-        },
-        bedarf: {
-          name: "Energiebedarfsausweis",
-          baseNet: 256.90,
-          extraUnitNet: 30.00,
-          fundingType: "none",
-          note: "Ab der zweiten Wohneinheit werden je 30,00 € netto zusätzlich berechnet."
-        },
-        verbrauch: {
-          name: "Energieverbrauchsausweis",
-          baseNet: 50.00,
-          extraUnitNet: 0.00,
-          fundingType: "none",
-          note: "Für diese Leistung ist in dieser Version kein Zuschlag je weiterer Wohneinheit hinterlegt."
-        },
-        bafa: {
-          name: "Begleitung BAFA-Einzelmaßnahme",
-          baseNet: 950.00,
-          extraUnitNet: 80.00,
-          fundingType: "half",
-          note: "Ab der zweiten Wohneinheit werden je 80,00 € netto zusätzlich berechnet."
-        },
-        heizlast: {
-          name: "Heizlastberechnung / hydraulischer Abgleich / KfW-Heizungsförderung",
-          baseNet: 250.00,
-          extraUnitNet: 80.00,
-          fundingType: "half",
-          note: "Ab der zweiten Wohneinheit werden je 80,00 € netto zusätzlich berechnet."
-        },
-        nonres: {
-          name: "Nichtwohngebäude",
-          baseNet: 0,
-          extraUnitNet: 0,
-          fundingType: "custom",
-          note: "Preis auf Anfrage, da je nach Gebäudeart, Nutzung und Größe erhebliche Unterschiede bestehen."
-        }
-      };
-      
-      function formatEuro(value) {
-        return value.toLocaleString("de-DE", {
-          style: "currency",
-          currency: "EUR"
-        });
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const VAT = 1.19;
+
+    const services = {
+      isfp: {
+        name: "Individueller Sanierungsfahrplan (iSFP)",
+        baseNet: 1350.00,
+        extraUnitNet: 150.00,
+        fundingType: "isfp",
+        note: "Ab der zweiten Wohneinheit werden je 150,00 € netto zusätzlich berechnet."
+      },
+      bedarf: {
+        name: "Energiebedarfsausweis",
+        baseNet: 256.90,
+        extraUnitNet: 30.00,
+        fundingType: "none",
+        note: "Ab der zweiten Wohneinheit werden je 30,00 € netto zusätzlich berechnet."
+      },
+      verbrauch: {
+        name: "Energieverbrauchsausweis",
+        baseNet: 50.00,
+        extraUnitNet: 0.00,
+        fundingType: "none",
+        note: "Für diese Leistung ist in dieser Version kein Zuschlag je weiterer Wohneinheit hinterlegt."
+      },
+      bafa: {
+        name: "Begleitung BAFA-Einzelmaßnahme",
+        baseNet: 950.00,
+        extraUnitNet: 80.00,
+        fundingType: "half",
+        note: "Ab der zweiten Wohneinheit werden je 80,00 € netto zusätzlich berechnet."
+      },
+      heizlast: {
+        name: "Heizlastberechnung",
+        baseNet: 250.00,
+        extraUnitNet: 80.00,
+        fundingType: "half",
+        note: "Ab der zweiten Wohneinheit werden je 80,00 € netto zusätzlich berechnet."
+      },
+      hydraulik: {
+        name: "Hydraulischer Abgleich",
+        baseNet: 250.00,
+        extraUnitNet: 80.00,
+        fundingType: "half",
+        note: "Ab der zweiten Wohneinheit werden je 80,00 € netto zusätzlich berechnet."
+      },
+      kfw: {
+        name: "KfW-Heizungsförderung",
+        baseNet: 250.00,
+        extraUnitNet: 80.00,
+        fundingType: "half",
+        note: "Ab der zweiten Wohneinheit werden je 80,00 € netto zusätzlich berechnet."
+      },
+      lueftung: {
+        name: "Lüftungskonzept",
+        baseNet: 250.00,
+        extraUnitNet: 80.00,
+        fundingType: "half",
+        note: "Ab der zweiten Wohneinheit werden je 80,00 € netto zusätzlich berechnet."
+      },
+      nonres: {
+        name: "Nichtwohngebäude",
+        baseNet: 0,
+        extraUnitNet: 0,
+        fundingType: "custom",
+        note: "Preis auf Anfrage, da je nach Gebäudeart, Nutzung und Größe erhebliche Unterschiede bestehen."
       }
-      
-      function calculateFunding(gross, type, units) {
-        if (type === "none") {
-          return 0;
-        }
-        
-        if (type === "half") {
-          return gross * 0.5;
-        }
-        
-        if (type === "isfp") {
-          if (units >= 3) {
-            return 850.00;
-          }
-          return Math.min(gross * 0.5, 650.00);
-        }
-        
+    };
+
+    function formatEuro(value) {
+      return value.toLocaleString("de-DE", {
+        style: "currency",
+        currency: "EUR"
+      });
+    }
+
+    function calculateFunding(gross, type, units) {
+      if (type === "none") {
         return 0;
       }
-      
-      function calculatePrice() {
-        const serviceKey = document.getElementById("service").value;
-        let units = parseInt(document.getElementById("units").value, 10);
-        
-        if (!serviceKey) {
-          alert("Bitte wählen Sie zuerst eine Leistung aus.");
-          return;
+
+      if (type === "half") {
+        return gross * 0.5;
+      }
+
+      if (type === "isfp") {
+        if (units >= 3) {
+          return 850.00;
         }
-        
-        if (serviceKey === "nonres") {
-          document.getElementById("resultService").textContent = "Nichtwohngebäude";
-          document.getElementById("resultUnits").textContent = "-";
-          document.getElementById("resultNet").textContent = "-";
-          document.getElementById("resultGross").textContent = "-";
-          document.getElementById("resultFunding").textContent = "-";
-          document.getElementById("resultOwn").textContent = "Preis auf Anfrage";
-          
-          document.getElementById("resultExplanation").innerHTML = `
+        return Math.min(gross * 0.5, 650.00);
+      }
+
+      return 0;
+    }
+
+    function calculatePrice() {
+      const serviceKey = document.getElementById("service").value;
+      let units = parseInt(document.getElementById("units").value, 10);
+
+      if (!serviceKey) {
+        alert("Bitte wählen Sie zuerst eine Leistung aus.");
+        return;
+      }
+
+      if (serviceKey === "nonres") {
+        document.getElementById("resultService").textContent = "Nichtwohngebäude";
+        document.getElementById("resultUnits").textContent = "-";
+        document.getElementById("resultNet").textContent = "-";
+        document.getElementById("resultGross").textContent = "-";
+        document.getElementById("resultFunding").textContent = "-";
+        document.getElementById("resultOwn").textContent = "Preis auf Anfrage";
+
+        document.getElementById("resultExplanation").innerHTML = `
           Für Nichtwohngebäude ist eine pauschale Preisangabe nicht sinnvoll, da
           der Aufwand stark von Größe, Nutzung und technischer Ausstattung abhängt.
           <br><br>
-            Bitte kontaktieren Sie uns für ein individuelles Angebot.
-          `;
-          
-          document.getElementById("resultBox").style.display = "block";
-          document.getElementById("resultBox").scrollIntoView({ behavior: "smooth", block: "start" });
-          return;
-        }
-        
-        if (!units || units < 1) {
-          units = 1;
-          document.getElementById("units").value = 1;
-        }
-        
-        const service = services[serviceKey];
-        const extraUnits = Math.max(0, units - 1);
-        const net = service.baseNet + (extraUnits * service.extraUnitNet);
-        const gross = net * VAT;
-        const funding = calculateFunding(gross, service.fundingType, units);
-        const own = Math.max(0, gross - funding);
-        
-        document.getElementById("resultService").textContent = service.name;
-        document.getElementById("resultUnits").textContent = units;
-        document.getElementById("resultNet").textContent = formatEuro(net);
-        document.getElementById("resultGross").textContent = formatEuro(gross);
-        document.getElementById("resultFunding").textContent = funding > 0 ? formatEuro(funding) : "Keine Förderung";
-        document.getElementById("resultOwn").textContent = formatEuro(own);
-        
-        let explanation = `
-        Grundlage der Berechnung ist der Basispreis von <strong>${formatEuro(service.baseNet)}</strong> netto.
+          Bitte kontaktieren Sie uns für ein individuelles Angebot.
         `;
-        
-        if (service.extraUnitNet > 0 && units > 1) {
-          explanation += `
-          Hinzu kommen <strong>${extraUnits}</strong> weitere Wohneinheiten mit jeweils
-          <strong>${formatEuro(service.extraUnitNet)}</strong> netto.
-          `;
-        }
-        
-        explanation += `<br><br>${service.note}`;
-        
-        if (service.fundingType === "isfp") {
-          explanation += `
-          <br><br>
-            Für den iSFP wurde die staatliche Förderung gemäß deiner Preisübersicht berücksichtigt:
-            <strong>50 %</strong>, bei 1–2 Wohneinheiten jedoch maximal <strong>650,00 €</strong>,
-          ab 3 Wohneinheiten pauschal <strong>850,00 €</strong>.
-          `;
-        }
-        
-        if (service.fundingType === "half") {
-          explanation += `
-          <br><br>
-            Für diese Leistung wurde eine Förderung von <strong>50 % des Bruttopreises</strong> berücksichtigt.
-          `;
-        }
-        
-        if (service.fundingType === "none") {
-          explanation += `
-          <br><br>
-            Für diese Leistung ist in deiner Tabelle keine Förderung hinterlegt.
-          `;
-        }
-        
-        document.getElementById("resultExplanation").innerHTML = explanation;
+
         document.getElementById("resultBox").style.display = "block";
         document.getElementById("resultBox").scrollIntoView({ behavior: "smooth", block: "start" });
+        return;
       }
-      
-      function resetCalculator() {
-        document.getElementById("service").value = "";
+
+      if (!units || units < 1) {
+        units = 1;
         document.getElementById("units").value = 1;
-        document.getElementById("resultBox").style.display = "none";
       }
-      </script>
-        </body>
-        </html>
+
+      const service = services[serviceKey];
+      const extraUnits = Math.max(0, units - 1);
+      const net = service.baseNet + (extraUnits * service.extraUnitNet);
+      const gross = net * VAT;
+      const funding = calculateFunding(gross, service.fundingType, units);
+      const own = Math.max(0, gross - funding);
+
+      document.getElementById("resultService").textContent = service.name;
+      document.getElementById("resultUnits").textContent = units;
+      document.getElementById("resultNet").textContent = formatEuro(net);
+      document.getElementById("resultGross").textContent = formatEuro(gross);
+      document.getElementById("resultFunding").textContent = funding > 0 ? formatEuro(funding) : "Keine Förderung";
+      document.getElementById("resultOwn").textContent = formatEuro(own);
+
+      let explanation = `
+        Grundlage der Berechnung ist der Basispreis von <strong>${formatEuro(service.baseNet)}</strong> netto.
+      `;
+
+      if (service.extraUnitNet > 0 && units > 1) {
+        explanation += `
+          Hinzu kommen <strong>${extraUnits}</strong> weitere Wohneinheiten mit jeweils
+          <strong>${formatEuro(service.extraUnitNet)}</strong> netto.
+        `;
+      }
+
+      explanation += `<br><br>${service.note}`;
+
+      if (service.fundingType === "isfp") {
+        explanation += `
+          <br><br>
+          Für den iSFP wurde die staatliche Förderung berücksichtigt:
+          <strong>50 %</strong>, bei 1–2 Wohneinheiten jedoch maximal <strong>650,00 €</strong>,
+          ab 3 Wohneinheiten pauschal <strong>850,00 €</strong>.
+        `;
+      }
+
+      if (service.fundingType === "half") {
+        explanation += `
+          <br><br>
+          Für diese Leistung wurde eine Förderung von <strong>50 % des Bruttopreises</strong> berücksichtigt.
+        `;
+      }
+
+      if (service.fundingType === "none") {
+        explanation += `
+          <br><br>
+          Keine Förderung möglich.
+        `;
+      }
+
+      document.getElementById("resultExplanation").innerHTML = explanation;
+      document.getElementById("resultBox").style.display = "block";
+      document.getElementById("resultBox").scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function resetCalculator() {
+      document.getElementById("service").value = "";
+      document.getElementById("units").value = 1;
+      document.getElementById("resultBox").style.display = "none";
+    }
+  </script>
+</body>
+</html>
 
