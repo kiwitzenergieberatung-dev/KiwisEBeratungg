@@ -1,0 +1,2040 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Energie-Check Schritt für Schritt</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f3f4f6;
+      color: #111827;
+    }
+
+    .wrapper {
+      max-width: 980px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 18px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+      padding: 28px;
+    }
+
+    h1 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 2rem;
+      text-align: center;
+      color: #14532d;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #4b5563;
+      margin-bottom: 28px;
+      line-height: 1.5;
+    }
+
+    .progress-wrap {
+      margin-bottom: 28px;
+    }
+
+    .progress-info {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.95rem;
+      color: #4b5563;
+      margin-bottom: 8px;
+      gap: 12px;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 12px;
+      background: #e5e7eb;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: #16a34a;
+      transition: width 0.25s ease;
+    }
+
+    .question-box {
+      min-height: 320px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .question-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #111827;
+    }
+
+    .question-hint {
+      color: #6b7280;
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    .answers {
+      display: grid;
+      gap: 12px;
+    }
+
+    .answer-btn {
+      width: 100%;
+      text-align: left;
+      border: 1px solid #d1d5db;
+      background: #fff;
+      color: #111827;
+      border-radius: 14px;
+      padding: 16px 18px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .answer-btn:hover {
+      border-color: #16a34a;
+      background: #f0fdf4;
+    }
+
+    .answer-btn.selected {
+      border-color: #16a34a;
+      background: #dcfce7;
+      font-weight: 700;
+    }
+
+    .input-wrap input {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #d1d5db;
+      border-radius: 12px;
+      font-size: 1rem;
+      margin-bottom: 14px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+
+    button {
+      border: none;
+      border-radius: 12px;
+      padding: 14px 22px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: #16a34a;
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: #15803d;
+    }
+
+    .btn-secondary {
+      background: #e5e7eb;
+      color: #111827;
+    }
+
+    .btn-secondary:hover {
+      background: #d1d5db;
+    }
+
+    .result {
+      display: none;
+      margin-top: 28px;
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 16px;
+      padding: 22px;
+    }
+
+    .result h2 {
+      margin-top: 0;
+      color: #166534;
+    }
+
+    .summary-box,
+    .section-box {
+      background: #fff;
+      border: 1px solid #dcfce7;
+      border-radius: 12px;
+      padding: 18px;
+      margin-top: 16px;
+      line-height: 1.6;
+    }
+
+    .section-box h3 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      color: #14532d;
+    }
+
+    .measure-list {
+      margin: 0;
+      padding-left: 20px;
+    }
+
+    .measure-list li {
+      margin-bottom: 10px;
+    }
+
+    .badge-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    .badge {
+      background: #dcfce7;
+      color: #166534;
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .cta {
+      text-align: center;
+      margin-top: 22px;
+    }
+
+    .cta a {
+      display: inline-block;
+      padding: 14px 20px;
+      border-radius: 12px;
+      background: #14532d;
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .cta a:hover {
+      background: #166534;
+    }
+
+    .notice {
+      margin-top: 18px;
+      font-size: 0.9rem;
+      color: #6b7280;
+    }
+
+    .debug {
+      margin-top: 24px;
+      background: #111827;
+      color: #f9fafb;
+      border-radius: 12px;
+      padding: 16px;
+      font-size: 0.9rem;
+      overflow-x: auto;
+      display: none;
+      white-space: pre-wrap;
+    }
+
+    .small-note {
+      margin-top: 12px;
+      font-size: 0.92rem;
+      color: #6b7280;
+    }
+
+    .result-highlight {
+      margin-top: 12px;
+      padding: 14px 16px;
+      border-radius: 12px;
+      background: #ecfdf5;
+      border: 1px solid #bbf7d0;
+      color: #14532d;
+    }
+
+    @media (max-width: 700px) {
+      .wrapper {
+        margin: 20px auto;
+        padding: 12px;
+      }
+
+      .card {
+        padding: 18px;
+      }
+
+      h1 {
+        font-size: 1.6rem;
+      }
+
+      .question-title {
+        font-size: 1.25rem;
+      }
+
+      .progress-info {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="card">
+      <h1>Der KI-witz-Energieberater</h1>
+      <p class="subtitle">
+        Beantworten Sie Schritt für Schritt einige kurze Fragen und erhalten Sie eine erste
+        Einschätzung zu sinnvollen energetischen Maßnahmen für Ihr Gebäude.
+      </p>
+
+      <div class="progress-wrap">
+        <div class="progress-info">
+          <span id="progressText">Frage 1 von 19</span>
+          <span id="progressPercent">5 %</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+      </div>
+
+      <div id="questionContainer" class="question-box"></div>
+
+      <div class="actions">
+        <button class="btn-secondary" id="backBtn" onclick="goBack()">Zurück</button>
+        <button class="btn-secondary" onclick="resetCalculator()">Neu starten</button>
+      </div>
+
+      <div class="result" id="resultBox">
+        <h2>Meine erste Einschätzung</h2>
+
+        <div class="summary-box" id="summaryBox"></div>
+
+        <div class="section-box">
+          <h3>Ihre wichtigsten Maßnahmen</h3>
+          <ul class="measure-list" id="topMeasures"></ul>
+        </div>
+
+        <div class="section-box">
+          <h3>Weitere sinnvolle Maßnahmen</h3>
+          <ul class="measure-list" id="otherMeasures"></ul>
+        </div>
+
+        <div class="section-box">
+          <h3>Hinweise & Zusammenhänge</h3>
+          <ul class="measure-list" id="insights"></ul>
+        </div>
+
+        <div class="section-box">
+          <h3>Erkannte Schwerpunkte</h3>
+          <div class="badge-row" id="badgeRow"></div>
+        </div>
+
+        <div class="cta">
+            <strong>Hier unverbindlich anfragen:</strong><br><br>
+            Telefon: <a href="tel:015777055626">0157 77055626</a><br>
+            E-Mail: <a href="mailto:kiwitz.energieberatung@gmail.com">kiwitz.energieberatung@gmail.com</a>
+        </div>
+
+
+        <div class="notice">
+          Hinweis: Diese Einschätzung dient der ersten Orientierung und ersetzt keine individuelle Fachberatung vor Ort.
+        </div>
+
+        <pre class="debug" id="debugBox"></pre>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /*
+      ==========================================================
+      1. FRAGENKATALOG
+      ==========================================================
+    */
+
+    const questions = [
+      {
+        id: "situation",
+        title: "Wie ist Ihre aktuelle Situation?",
+        hint: "Das hilft dabei, die Empfehlungen besser einzuordnen.",
+        type: "choice",
+        options: [
+          { value: "neueinzug", label: "Ich ziehe neu in die Immobilie ein" },
+          { value: "bestand", label: "Ich wohne bereits im Gebäude" }
+        ]
+      },
+      {
+        id: "baujahr",
+        title: "Wann wurde das Gebäude ursprünglich gebaut?",
+        hint: "Falls nicht exakt bekannt, genügt eine grobe Einordnung.",
+        type: "choice",
+        options: [
+          { value: "vor1950", label: "vor 1950" },
+          { value: "1950_1978", label: "1950 – 1978" },
+          { value: "1978_1995", label: "1978 – 1995" },
+          { value: "1996_2010", label: "1996 – 2010" },
+          { value: "ab2011", label: "ab 2011" },
+          { value: "unbekannt", label: "weiß ich nicht" }
+        ]
+      },
+      {
+        id: "wohnflaeche",
+        title: "Wie groß ist die Wohnfläche?",
+        hint: "Bitte als Zahl in m² eingeben.",
+        type: "number",
+        min: 1,
+        placeholder: "z. B. 145"
+      },
+      {
+        id: "wohneinheiten",
+        title: "Wie viele Wohneinheiten hat das Gebäude?",
+        hint: "Eine grobe Auswahl reicht für die erste Einschätzung.",
+        type: "choice",
+        options: [
+          { value: "1", label: "1" },
+          { value: "2", label: "2" },
+          { value: "3_5", label: "3 – 5" },
+          { value: "6plus", label: "6+" }
+        ]
+      },
+      {
+        id: "heizung",
+        title: "Welche Heizung wird aktuell genutzt?",
+        hint: "Wählen Sie die Hauptheizung des Gebäudes.",
+        type: "choice",
+        options: [
+          { value: "gas", label: "Gasheizung" },
+          { value: "oel", label: "Ölheizung" },
+          { value: "waermepumpe", label: "Wärmepumpe" },
+          { value: "fernwaerme", label: "Fernwärme" },
+          { value: "holz", label: "Holz / Pellet" },
+          { value: "nachtspeicher", label: "Nachtspeicherheizung" },
+          { value: "sonstiges", label: "Sonstiges" }
+        ]
+      },
+      {
+        id: "heizungsalter",
+        title: "Wie alt ist die Heizungsanlage ungefähr?",
+        hint: "Das Alter der Heizung ist oft ein wichtiger Hebel für die Bewertung.",
+        type: "choice",
+        options: [
+          { value: "unter5", label: "unter 5 Jahre" },
+          { value: "5_10", label: "5 – 10 Jahre" },
+          { value: "10_20", label: "10 – 20 Jahre" },
+          { value: "20_30", label: "20 – 30 Jahre" },
+          { value: "ueber30", label: "älter als 30 Jahre" },
+          { value: "unbekannt", label: "weiß ich nicht" }
+        ]
+      },
+      {
+        id: "warmwasser",
+        title: "Wird das Warmwasser über die Heizung erzeugt?",
+        hint: "Falls Sie es nicht genau wissen, wählen Sie einfach „weiß ich nicht“.",
+        type: "choice",
+        options: [
+          { value: "ja", label: "Ja" },
+          { value: "nein", label: "Nein" },
+          { value: "teilweise", label: "Teilweise" },
+          { value: "unbekannt", label: "Weiß ich nicht" }
+        ]
+      },
+      {
+        id: "waermeverteilung",
+        title: "Welche Wärmeverteilung ist vorhanden?",
+        hint: "Zum Beispiel klassische Heizkörper oder Fußbodenheizung.",
+        type: "choice",
+        options: [
+          { value: "heizkoerper", label: "Heizkörper" },
+          { value: "fbh", label: "Fußbodenheizung" },
+          { value: "beides", label: "Beides" },
+          { value: "weder", label: "Weder noch" }
+        ]
+      },
+      {
+        id: "dach",
+        title: "Ist das Dach gedämmt?",
+        hint: "Falls nur älter oder teilweise gedämmt, wählen Sie die mittlere Option.",
+        type: "choice",
+        options: [
+          { value: "gut", label: "Ja, gut gedämmt" },
+          { value: "teilweise", label: "Teilweise / älter gedämmt" },
+          { value: "nein", label: "Nein" },
+          { value: "unbekannt", label: "Weiß ich nicht" }
+        ]
+      },
+      {
+        id: "fenster",
+        title: "Wie alt sind die Fenster ungefähr?",
+        hint: "Eine grobe Schätzung reicht.",
+        type: "choice",
+        options: [
+          { value: "unter10", label: "unter 10 Jahre" },
+          { value: "10_20", label: "10 – 20 Jahre" },
+          { value: "20_30", label: "20 – 30 Jahre" },
+          { value: "ueber30", label: "älter als 30 Jahre" },
+          { value: "unbekannt", label: "weiß ich nicht" }
+        ]
+      },
+      {
+        id: "fassade",
+        title: "Gibt es eine Fassadendämmung?",
+        hint: "Auch eine teilweise Dämmung kann angegeben werden.",
+        type: "choice",
+        options: [
+          { value: "ja", label: "Ja" },
+          { value: "nein", label: "Nein" },
+          { value: "teilweise", label: "Teilweise" },
+          { value: "unbekannt", label: "Weiß ich nicht" }
+        ]
+      },
+      {
+        id: "kellerdecke",
+        title: "Ist die Kellerdecke bzw. der Boden zum Erdreich gedämmt?",
+        hint: "Wenn Sie unsicher sind, wählen Sie einfach „weiß ich nicht“.",
+        type: "choice",
+        options: [
+          { value: "ja", label: "Ja" },
+          { value: "nein", label: "Nein" },
+          { value: "unbekannt", label: "Weiß ich nicht" }
+        ]
+      },
+      {
+        id: "elektrik",
+        title: "Wie alt ist die elektrische Anlage?",
+        hint: "Gemeint sind Leitungen, Unterverteilung, Sicherungskasten usw.",
+        type: "choice",
+        options: [
+          { value: "unter20", label: "unter 20 Jahre" },
+          { value: "20_30", label: "20 – 30 Jahre" },
+          { value: "30_40", label: "30 – 40 Jahre" },
+          { value: "ueber40", label: "älter als 40 Jahre" },
+          { value: "unbekannt", label: "weiß ich nicht" }
+        ]
+      },
+      {
+        id: "wasserleitungen",
+        title: "Wie alt sind die Wasserleitungen?",
+        hint: "Auch hier genügt eine grobe Schätzung.",
+        type: "choice",
+        options: [
+          { value: "unter20", label: "unter 20 Jahre" },
+          { value: "20_30", label: "20 – 30 Jahre" },
+          { value: "30_40", label: "30 – 40 Jahre" },
+          { value: "ueber40", label: "älter als 40 Jahre" },
+          { value: "unbekannt", label: "weiß ich nicht" }
+        ]
+      },
+      {
+        id: "pv",
+        title: "Gibt es bereits eine Photovoltaikanlage (PV)?",
+        hint: "Damit können spätere Stromthemen besser eingeordnet werden.",
+        type: "choice",
+        options: [
+          { value: "ja", label: "Ja" },
+          { value: "nein", label: "Nein" }
+        ]
+      },
+      {
+        id: "eauto",
+        title: "Ist ein Elektroauto vorhanden oder geplant?",
+        hint: "Das ist wichtig für die Bewertung der elektrischen Infrastruktur.",
+        type: "choice",
+        options: [
+          { value: "vorhanden", label: "Ja, bereits vorhanden" },
+          { value: "geplant", label: "Ja, geplant" },
+          { value: "nein", label: "Nein" }
+        ]
+      },
+      {
+        id: "budget",
+        title: "Welches Budget steht Ihnen für energetische Sanierungen ungefähr zur Verfügung?",
+        hint: "Eine grobe Einordnung reicht für die erste Einschätzung.",
+        type: "choice",
+        options: [
+          { value: "unter20000", label: "unter 20.000 €" },
+          { value: "unter50000", label: "unter 50.000 €" },
+          { value: "unter100000", label: "unter 100.000 €" },
+          { value: "unter150000", label: "unter 150.000 €" },
+          { value: "ueber200000", label: "über 200.000 €" }
+        ]
+      },
+      {
+        id: "interessierte_massnahmen",
+        title: "Welche energetischen Maßnahmen ziehen Sie in Betracht?",
+        hint: "Mehrfachauswahl möglich.",
+        type: "multi",
+        options: [
+          { value: "heizung", label: "Austausch der bestehenden Heizung" },
+          { value: "dach", label: "Dachsanierung" },
+          { value: "fenster", label: "Fenster austauschen" },
+          { value: "fassade", label: "Fassadendämmung" },
+          { value: "kellerdecke", label: "Kellerdeckendämmung" },
+          { value: "pv_speicher", label: "PV-Anlage (mit Speicher)" },
+          { value: "wallbox", label: "Wallbox/Ladeinfrastruktur" },
+          { value: "elektrik", label: "Elektrik modernisieren" }
+        ]
+      },
+      {
+        id: "ziel",
+        title: "Was ist Ihr Hauptziel?",
+        hint: "Das beeinflusst die spätere Einordnung und Gewichtung.",
+        type: "choice",
+        options: [
+          { value: "kosten", label: "Energiekosten senken" },
+          { value: "komfort", label: "Wohnkomfort verbessern" },
+          { value: "wert", label: "Immobilie aufwerten" },
+          { value: "alles", label: "Alles davon" }
+        ]
+      }
+    ];
+
+    /*
+      ==========================================================
+      2. APP-STATE
+      ==========================================================
+    */
+
+    let currentQuestionIndex = 0;
+    let answers = {};
+
+    /*
+      ==========================================================
+      3. UI
+      ==========================================================
+    */
+
+    function renderQuestion() {
+      const container = document.getElementById("questionContainer");
+      const q = questions[currentQuestionIndex];
+
+      updateProgress();
+      document.getElementById("backBtn").style.visibility = currentQuestionIndex === 0 ? "hidden" : "visible";
+
+      if (q.type === "choice") {
+        const buttonsHtml = q.options.map(option => {
+          const selected = answers[q.id] === option.value ? "selected" : "";
+          return `
+            <button class="answer-btn ${selected}" onclick="selectChoice('${q.id}', '${option.value}')">
+              ${option.label}
+            </button>
+          `;
+        }).join("");
+
+        container.innerHTML = `
+          <div class="question-title">${q.title}</div>
+          <div class="question-hint">${q.hint}</div>
+          <div class="answers">${buttonsHtml}</div>
+        `;
+        return;
+      }
+
+      if (q.type === "number") {
+        const currentValue = answers[q.id] || "";
+        container.innerHTML = `
+          <div class="question-title">${q.title}</div>
+          <div class="question-hint">${q.hint}</div>
+          <div class="input-wrap">
+            <input
+              type="number"
+              id="numberInput"
+              min="${q.min || 0}"
+              placeholder="${q.placeholder || ''}"
+              value="${currentValue}"
+            />
+            <button class="btn-primary" onclick="saveNumberAnswer()">Weiter</button>
+          </div>
+        `;
+        return;
+      }
+
+      if (q.type === "multi") {
+        const selectedValues = Array.isArray(answers[q.id]) ? answers[q.id] : [];
+
+        const buttonsHtml = q.options.map(option => {
+          const selected = selectedValues.includes(option.value) ? "selected" : "";
+          return `
+            <button class="answer-btn ${selected}" onclick="toggleMultiChoice('${q.id}', '${option.value}')">
+              ${option.label}
+            </button>
+          `;
+        }).join("");
+
+        container.innerHTML = `
+          <div class="question-title">${q.title}</div>
+          <div class="question-hint">${q.hint}</div>
+          <div class="answers">${buttonsHtml}</div>
+          <div class="small-note">Sie können mehrere Punkte auswählen und danach auf „Weiter“ klicken.</div>
+          <div class="actions">
+            <button class="btn-primary" onclick="saveMultiAnswer('${q.id}')">Weiter</button>
+          </div>
+        `;
+      }
+    }
+
+    function updateProgress() {
+      const total = questions.length;
+      const current = currentQuestionIndex + 1;
+      const percent = Math.round((current / total) * 100);
+
+      document.getElementById("progressText").textContent = `Frage ${current} von ${total}`;
+      document.getElementById("progressPercent").textContent = `${percent} %`;
+      document.getElementById("progressFill").style.width = `${percent}%`;
+    }
+
+    function selectChoice(questionId, value) {
+      answers[questionId] = value;
+      goNext();
+    }
+
+    function saveNumberAnswer() {
+      const q = questions[currentQuestionIndex];
+      const input = document.getElementById("numberInput");
+      const value = parseFloat(input.value);
+
+      if (!value || value < 1) {
+        alert("Bitte geben Sie eine gültige Zahl ein.");
+        return;
+      }
+
+      answers[q.id] = value;
+      goNext();
+    }
+
+    function toggleMultiChoice(questionId, value) {
+      if (!Array.isArray(answers[questionId])) {
+        answers[questionId] = [];
+      }
+
+      const list = answers[questionId];
+      const idx = list.indexOf(value);
+
+      if (idx >= 0) {
+        list.splice(idx, 1);
+      } else {
+        list.push(value);
+      }
+
+      renderQuestion();
+    }
+
+    function saveMultiAnswer(questionId) {
+      if (!Array.isArray(answers[questionId])) {
+        answers[questionId] = [];
+      }
+      goNext();
+    }
+
+    function goNext() {
+      if (currentQuestionIndex < questions.length - 1) {
+        currentQuestionIndex++;
+        renderQuestion();
+      } else {
+        calculateResult();
+      }
+    }
+
+    function goBack() {
+      if (currentQuestionIndex > 0) {
+        currentQuestionIndex--;
+        renderQuestion();
+      }
+    }
+
+    function resetCalculator() {
+      currentQuestionIndex = 0;
+      answers = {};
+      document.getElementById("resultBox").style.display = "none";
+      document.getElementById("questionContainer").style.display = "flex";
+      renderQuestion();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    /*
+      ==========================================================
+      4. BLOCK 1 – ANTWORTEN -> BASISZUSTÄNDE
+      ==========================================================
+    */
+
+    function deriveBaseStates(answers) {
+      const states = new Set();
+
+      if (answers.situation === "neueinzug") states.add("neueinzug");
+      if (answers.situation === "bestand") states.add("bestand_bewohnt");
+
+      if (answers.baujahr === "vor1950") {
+        states.add("gebaeude_sehr_alt");
+        states.add("sanierung_wahrscheinlich");
+      }
+      if (answers.baujahr === "1950_1978") {
+        states.add("gebaeude_alt");
+        states.add("sanierung_wahrscheinlich");
+      }
+      if (answers.baujahr === "1978_1995") states.add("gebaeude_mittel");
+      if (answers.baujahr === "1996_2010") states.add("gebaeude_juenger");
+      if (answers.baujahr === "ab2011") states.add("gebaeude_modern");
+      if (answers.baujahr === "unbekannt") states.add("gebaeude_unbekannt");
+
+      if (answers.wohnflaeche) {
+        states.add("wohnflaeche_bekannt");
+        if (answers.wohnflaeche < 100) states.add("wohnflaeche_klein");
+        if (answers.wohnflaeche >= 100 && answers.wohnflaeche < 180) states.add("wohnflaeche_mittel");
+        if (answers.wohnflaeche >= 180) states.add("wohnflaeche_gross");
+      }
+
+      if (answers.wohneinheiten === "1") states.add("einfamilienhaus");
+      if (answers.wohneinheiten === "2") states.add("zweifamilienhaus");
+      if (answers.wohneinheiten === "3_5") states.add("mehrfamilienhaus_klein");
+      if (answers.wohneinheiten === "6plus") states.add("mehrfamilienhaus_gross");
+
+      if (answers.heizung === "gas") {
+        states.add("heizung_gas");
+        states.add("heizung_fossil");
+      }
+      if (answers.heizung === "oel") {
+        states.add("heizung_oel");
+        states.add("heizung_fossil");
+      }
+      if (answers.heizung === "waermepumpe") {
+        states.add("heizung_waermepumpe");
+        states.add("heizung_erneuerbar");
+      }
+      if (answers.heizung === "fernwaerme") states.add("heizung_fernwaerme");
+      if (answers.heizung === "holz") {
+        states.add("heizung_holz");
+        states.add("heizung_erneuerbar");
+      }
+      if (answers.heizung === "nachtspeicher") {
+        states.add("heizung_nachtspeicher");
+        states.add("heizung_elektrisch_direkt");
+      }
+      if (answers.heizung === "sonstiges") states.add("heizung_sonstig");
+
+      if (answers.heizungsalter === "unter5") states.add("heizung_sehr_neu");
+      if (answers.heizungsalter === "5_10") states.add("heizung_relativ_neu");
+      if (answers.heizungsalter === "10_20") states.add("heizung_mittelalt");
+      if (answers.heizungsalter === "20_30") states.add("heizung_alt");
+      if (answers.heizungsalter === "ueber30") states.add("heizung_sehr_alt");
+      if (answers.heizungsalter === "unbekannt") states.add("heizung_alter_unbekannt");
+
+      if (answers.warmwasser === "ja") states.add("warmwasser_ueber_heizung");
+      if (answers.warmwasser === "nein") states.add("warmwasser_getrennt");
+      if (answers.warmwasser === "teilweise") states.add("warmwasser_teils");
+      if (answers.warmwasser === "unbekannt") states.add("warmwasser_unbekannt");
+
+      if (answers.waermeverteilung === "heizkoerper") states.add("heizkoerper");
+      if (answers.waermeverteilung === "fbh") states.add("fussbodenheizung");
+      if (answers.waermeverteilung === "beides") states.add("heizkoerper_und_fbh");
+      if (answers.waermeverteilung === "weder") states.add("keine_klassische_waermeverteilung");
+
+      if (answers.dach === "gut") states.add("dach_gut");
+      if (answers.dach === "teilweise") states.add("dach_teilsaniert");
+      if (answers.dach === "nein") states.add("dach_ungedaemmt");
+      if (answers.dach === "unbekannt") states.add("dach_unbekannt");
+
+      if (answers.fenster === "unter10") states.add("fenster_neu");
+      if (answers.fenster === "10_20") states.add("fenster_mittelalt");
+      if (answers.fenster === "20_30") states.add("fenster_alt");
+      if (answers.fenster === "ueber30") states.add("fenster_sehr_alt");
+      if (answers.fenster === "unbekannt") states.add("fenster_unbekannt");
+
+      if (answers.fassade === "ja") states.add("fassade_gedaemmt");
+      if (answers.fassade === "nein") states.add("fassade_ungedaemmt");
+      if (answers.fassade === "teilweise") states.add("fassade_teilsaniert");
+      if (answers.fassade === "unbekannt") states.add("fassade_unbekannt");
+
+      if (answers.kellerdecke === "ja") states.add("kellerdecke_gedaemmt");
+      if (answers.kellerdecke === "nein") states.add("kellerdecke_ungedaemmt");
+      if (answers.kellerdecke === "unbekannt") states.add("kellerdecke_unbekannt");
+
+      if (answers.elektrik === "unter20") states.add("elektrik_neu");
+      if (answers.elektrik === "20_30") states.add("elektrik_alt");
+      if (answers.elektrik === "30_40") states.add("elektrik_sehr_alt");
+      if (answers.elektrik === "ueber40") states.add("elektrik_kritisch_basis");
+      if (answers.elektrik === "unbekannt") states.add("elektrik_unbekannt");
+
+      if (answers.wasserleitungen === "unter20") states.add("wasserleitungen_neu");
+      if (answers.wasserleitungen === "20_30") states.add("wasserleitungen_alt");
+      if (answers.wasserleitungen === "30_40") states.add("wasserleitungen_sehr_alt");
+      if (answers.wasserleitungen === "ueber40") states.add("wasserleitungen_kritisch_basis");
+      if (answers.wasserleitungen === "unbekannt") states.add("wasserleitungen_unbekannt");
+
+      if (answers.pv === "ja") states.add("pv_vorhanden");
+      if (answers.pv === "nein") states.add("pv_fehlt");
+
+      if (answers.eauto === "vorhanden") {
+        states.add("eauto_vorhanden");
+        states.add("eauto_relevant");
+      }
+      if (answers.eauto === "geplant") {
+        states.add("eauto_geplant");
+        states.add("eauto_relevant");
+      }
+      if (answers.eauto === "nein") states.add("kein_eauto");
+
+      if (answers.budget === "unter20000") states.add("budget_klein");
+      if (answers.budget === "unter50000") states.add("budget_mittel");
+      if (answers.budget === "unter100000") states.add("budget_gehoben");
+      if (answers.budget === "unter150000") states.add("budget_gross");
+      if (answers.budget === "ueber200000") states.add("budget_sehr_gross");
+
+      if (Array.isArray(answers.interessierte_massnahmen)) {
+        states.add("massnahmeninteresse_bekannt");
+
+        if (answers.interessierte_massnahmen.includes("heizung")) states.add("interesse_heizung");
+        if (answers.interessierte_massnahmen.includes("dach")) states.add("interesse_dach");
+        if (answers.interessierte_massnahmen.includes("fenster")) states.add("interesse_fenster");
+        if (answers.interessierte_massnahmen.includes("fassade")) states.add("interesse_fassade");
+        if (answers.interessierte_massnahmen.includes("kellerdecke")) states.add("interesse_kellerdecke");
+        if (answers.interessierte_massnahmen.includes("pv_speicher")) {
+          states.add("interesse_pv");
+          states.add("interesse_speicher");
+        }
+        if (answers.interessierte_massnahmen.includes("wallbox")) states.add("interesse_wallbox");
+        if (answers.interessierte_massnahmen.includes("elektrik")) states.add("interesse_elektrik");
+      }
+
+      if (answers.ziel === "kosten") states.add("ziel_kosten");
+      if (answers.ziel === "komfort") states.add("ziel_komfort");
+      if (answers.ziel === "wert") states.add("ziel_wertsteigerung");
+      if (answers.ziel === "alles") states.add("ziel_alles");
+
+      return states;
+    }
+
+    /*
+      ==========================================================
+      5. BLOCK 2 – BASISZUSTÄNDE -> FACHLICHE BEWERTUNG
+      ==========================================================
+      Hier sind bewusst sehr viele Verknüpfungen eingebaut,
+      damit die Logik später leichter erweitert werden kann.
+    */
+
+    function deriveEvaluationStates(baseStates) {
+      const states = new Set([...baseStates]);
+
+      // ---------- Hüllqualität Grundbewertung ----------
+      if (states.has("dach_ungedaemmt")) states.add("bauteil_kritisch_dach");
+      if (states.has("dach_teilsaniert")) states.add("bauteil_mittel_dach");
+
+      if (states.has("fenster_sehr_alt")) states.add("bauteil_kritisch_fenster");
+      if (states.has("fenster_alt")) states.add("bauteil_mittel_fenster");
+
+      if (states.has("fassade_ungedaemmt")) states.add("bauteil_kritisch_fassade");
+      if (states.has("fassade_teilsaniert")) states.add("bauteil_mittel_fassade");
+
+      if (states.has("kellerdecke_ungedaemmt")) states.add("bauteil_kritisch_keller");
+
+      let huelleScore = 0;
+      if (states.has("bauteil_kritisch_dach")) huelleScore += 2;
+      if (states.has("bauteil_mittel_dach")) huelleScore += 1;
+      if (states.has("bauteil_kritisch_fenster")) huelleScore += 2;
+      if (states.has("bauteil_mittel_fenster")) huelleScore += 1;
+      if (states.has("bauteil_kritisch_fassade")) huelleScore += 2;
+      if (states.has("bauteil_mittel_fassade")) huelleScore += 1;
+      if (states.has("bauteil_kritisch_keller")) huelleScore += 1;
+
+      if (huelleScore >= 1) states.add("huelle_irgendwo_schwach");
+      if (huelleScore >= 3) states.add("huelle_mittel");
+      if (huelleScore >= 5) states.add("huelle_schwach");
+      if (huelleScore >= 7) states.add("huelle_sehr_schwach");
+
+      if (states.has("dach_gut") && states.has("fenster_neu") && states.has("fassade_gedaemmt")) {
+        states.add("huelle_gut");
+      }
+
+      if (
+        (states.has("dach_gut") || states.has("dach_teilsaniert")) &&
+        (states.has("fenster_neu") || states.has("fenster_mittelalt")) &&
+        (states.has("fassade_gedaemmt") || states.has("fassade_teilsaniert"))
+      ) {
+        states.add("huelle_ordentlich");
+      }
+
+      // ---------- Gebäudealter + Hülle ----------
+      if ((states.has("gebaeude_sehr_alt") || states.has("gebaeude_alt")) && states.has("huelle_schwach")) {
+        states.add("altbau_mit_hohem_huellenbedarf");
+      }
+
+      if ((states.has("gebaeude_sehr_alt") || states.has("gebaeude_alt")) && states.has("fassade_ungedaemmt")) {
+        states.add("fassade_besonders_relevant");
+      }
+
+      if ((states.has("gebaeude_sehr_alt") || states.has("gebaeude_alt")) && states.has("fenster_sehr_alt")) {
+        states.add("fenster_besonders_relevant");
+      }
+
+      if ((states.has("gebaeude_sehr_alt") || states.has("gebaeude_alt")) && states.has("dach_ungedaemmt")) {
+        states.add("dach_besonders_relevant");
+      }
+
+      // ---------- Heizung Grundbewertung ----------
+      if (states.has("heizung_sehr_alt")) states.add("heizung_kritisch");
+      if (states.has("heizung_oel")) states.add("heizung_kritisch");
+      if (states.has("heizung_nachtspeicher")) states.add("heizung_kritisch");
+      if (states.has("heizung_fossil") && states.has("heizung_alt")) states.add("heizung_kritisch");
+
+      if (states.has("heizung_alt")) states.add("heizungstausch_sinnvoll");
+      if (states.has("heizung_kritisch")) states.add("heizungstausch_dringend");
+
+      if (states.has("heizung_fossil")) states.add("heizung_nicht_zukunftssicher");
+      if (states.has("heizung_oel")) states.add("heizung_besonders_unzeitgemaess");
+      if (states.has("heizung_nachtspeicher")) states.add("heizung_besonders_teuer_oder_unguenstig");
+
+      // ---------- Wärmepumpe ----------
+      if (states.has("fussbodenheizung")) states.add("waermepumpe_naheliegend");
+      if (states.has("heizkoerper_und_fbh")) states.add("waermepumpe_naheliegend");
+      if (states.has("heizung_nachtspeicher")) states.add("luft_luft_waermepumpe_naheliegend");
+
+      if (states.has("heizung_alt") && states.has("fussbodenheizung")) {
+        states.add("wp_technisch_besonders_naheliegend");
+      }
+
+      if (states.has("heizung_oel") && states.has("fussbodenheizung")) {
+        states.add("wp_ersetzt_oel_besonders_sinnvoll");
+      }
+
+      if (states.has("waermepumpe_naheliegend") && (states.has("huelle_gut") || states.has("huelle_ordentlich"))) {
+        states.add("waermepumpe_sehr_gut");
+      }
+
+      if (states.has("heizung_kritisch") && states.has("waermepumpe_naheliegend")) {
+        states.add("wp_besonders_sinnvoll");
+      }
+
+      if (states.has("heizkoerper") && states.has("huelle_schwach")) {
+        states.add("waermepumpe_mit_heizkoerpern_herausfordernd");
+      }
+
+      if (states.has("heizkoerper") && states.has("huelle_sehr_schwach")) {
+        states.add("waermepumpe_erst_nach_huellenverbesserung_stark");
+      }
+
+      if (states.has("heizung_waermepumpe") && states.has("huelle_schwach")) {
+        states.add("bestehende_wp_hat_schwaechere_rahmenbedingungen");
+      }
+
+      if (states.has("keine_klassische_waermeverteilung") && states.has("heizung_nachtspeicher")) {
+        states.add("sonderfall_waermeverteilung_pruefen");
+      }
+
+      // ---------- Warmwasser ----------
+      if (states.has("warmwasser_ueber_heizung") && states.has("heizung_kritisch")) {
+        states.add("heizung_und_warmwasser_gemeinsam_denken");
+      }
+
+      if (states.has("warmwasser_getrennt")) {
+        states.add("warmwasser_separat_zu_betrachten");
+      }
+
+      // ---------- Technik ----------
+      if (states.has("elektrik_sehr_alt")) states.add("elektrik_kritisch");
+      if (states.has("elektrik_kritisch_basis")) states.add("elektrik_kritisch");
+
+      if (states.has("wasserleitungen_kritisch_basis")) states.add("wasserleitungen_kritisch");
+      if (states.has("wasserleitungen_sehr_alt")) states.add("wasserleitungen_pruefen");
+
+      if (states.has("elektrik_alt")) states.add("elektrik_nicht_mehr_topaktuell");
+      if (states.has("wasserleitungen_alt")) states.add("wasserleitungen_nicht_mehr_topaktuell");
+
+      // ---------- E-Mobilität / Strom ----------
+      if (states.has("eauto_relevant")) states.add("strombedarf_steigt");
+      if (states.has("heizung_waermepumpe")) states.add("strombedarf_steigt");
+
+      if (states.has("pv_fehlt")) states.add("pv_pruefen");
+
+      if (states.has("pv_fehlt") && states.has("strombedarf_steigt")) {
+        states.add("pv_besonders_sinnvoll");
+      }
+
+      if (states.has("dach_ungedaemmt") && states.has("pv_fehlt")) {
+        states.add("dachsanierung_mit_pv");
+      }
+
+      if (states.has("pv_vorhanden") && states.has("eauto_relevant")) {
+        states.add("pv_und_eauto_gute_kombination");
+      }
+
+      if (states.has("pv_vorhanden") && states.has("heizung_waermepumpe")) {
+        states.add("pv_und_wp_gute_kombination");
+      }
+
+      // ---------- Elektrik + Lasten ----------
+      const electricLoadRelevant =
+        states.has("eauto_relevant") ||
+        states.has("heizung_waermepumpe") ||
+        states.has("pv_fehlt") ||
+        states.has("interesse_wallbox") ||
+        states.has("interesse_pv") ||
+        states.has("interesse_elektrik");
+
+      if (states.has("elektrik_alt") && electricLoadRelevant) {
+        states.add("elektrik_pruefen");
+      }
+
+      if (
+        states.has("elektrik_kritisch") &&
+        (
+          states.has("pv_fehlt") ||
+          states.has("eauto_relevant") ||
+          states.has("heizung_waermepumpe") ||
+          states.has("interesse_wallbox") ||
+          states.has("interesse_pv")
+        )
+      ) {
+        states.add("elektrik_zuerst");
+      }
+
+      if (states.has("elektrik_kritisch") && states.has("interesse_wallbox")) {
+        states.add("wallbox_infrastruktur_kritisch");
+      }
+
+      if (states.has("elektrik_kritisch") && states.has("interesse_pv")) {
+        states.add("pv_infrastruktur_kritisch");
+      }
+
+      // ---------- Neueinzug / Bestand ----------
+      if (states.has("neueinzug") && states.has("dach_ungedaemmt")) {
+        states.add("geg_dach_pruefen");
+      }
+
+      if (states.has("neueinzug") && states.has("huelle_schwach")) {
+        states.add("sanierung_jetzt_optimal");
+      }
+
+      if (states.has("neueinzug") && states.has("heizung_kritisch")) {
+        states.add("sanierung_jetzt_optimal");
+      }
+
+      if (states.has("neueinzug") && states.has("elektrik_kritisch")) {
+        states.add("sanierung_jetzt_optimal");
+      }
+
+      if (states.has("bestand_bewohnt")) {
+        states.add("sanierung_schrittweise");
+      }
+
+      if (states.has("neueinzug") && states.has("wasserleitungen_kritisch")) {
+        states.add("wasserleitungen_beim_einzug_pruefen");
+      }
+
+      // ---------- Reihenfolge ----------
+      if (states.has("huelle_schwach") && states.has("heizung_kritisch")) {
+        states.add("erst_huelle_dann_heizung");
+      }
+
+      if (states.has("huelle_sehr_schwach") && states.has("interesse_heizung")) {
+        states.add("heizung_alleine_wahrscheinlich_nicht_optimal");
+      }
+
+      if ((states.has("huelle_gut") || states.has("huelle_ordentlich")) && states.has("heizung_kritisch")) {
+        states.add("heizung_direkt_erneuern");
+      }
+
+      if (states.has("dachsanierung_mit_pv")) {
+        states.add("massnahmen_buendelung_dach_pv_sinnvoll");
+      }
+
+      // ---------- Budget Grundbewertung ----------
+      if (states.has("budget_klein")) states.add("budget_begrenzt");
+      if (states.has("budget_mittel")) states.add("budget_gezielte_massnahmen_moeglich");
+      if (states.has("budget_gehoben") || states.has("budget_gross") || states.has("budget_sehr_gross")) {
+        states.add("budget_fuer_groessere_pakete");
+      }
+
+      if (states.has("budget_sehr_gross")) states.add("budget_fuer_ganzheitliche_sanierung");
+      if (states.has("budget_klein") || states.has("budget_mittel")) states.add("budget_praezise_priorisieren");
+
+      // ---------- Budget + Gebäudezustand ----------
+      if (states.has("budget_klein") && states.has("huelle_sehr_schwach")) {
+        states.add("budget_passt_nicht_zu_grossem_huellenbedarf");
+      }
+
+      if (states.has("budget_klein") && states.has("heizung_kritisch") && states.has("huelle_schwach")) {
+        states.add("budget_reicht_wohl_nicht_fuer_komplettpaket");
+      }
+
+      if (states.has("budget_mittel") && states.has("huelle_sehr_schwach") && states.has("heizung_kritisch")) {
+        states.add("budget_nur_fuer_teilpakete_realistisch");
+      }
+
+      if (states.has("budget_fuer_ganzheitliche_sanierung") && states.has("haus_hat_grosse_potenziale")) {
+        states.add("budget_und_bedarf_koennen_gut_zusammenpassen");
+      }
+
+      // ---------- Wunschmaßnahmen ----------
+      if (states.has("massnahmeninteresse_bekannt")) {
+        states.add("wunschmassnahmen_vorhanden");
+      }
+
+      if (states.has("interesse_pv") && states.has("pv_fehlt")) {
+        states.add("wunsch_und_bedarf_pv_passen");
+      }
+
+      if (states.has("interesse_elektrik") && states.has("elektrik_kritisch")) {
+        states.add("wunsch_und_bedarf_elektrik_passen");
+      }
+
+      if (states.has("interesse_wallbox") && states.has("eauto_relevant")) {
+        states.add("wallbox_besonders_relevant");
+      }
+
+      if (states.has("interesse_dach") && states.has("bauteil_kritisch_dach")) {
+        states.add("wunsch_und_bedarf_dach_passen");
+      }
+
+      if (states.has("interesse_fenster") && states.has("bauteil_kritisch_fenster")) {
+        states.add("wunsch_und_bedarf_fenster_passen");
+      }
+
+      if (states.has("interesse_fassade") && states.has("bauteil_kritisch_fassade")) {
+        states.add("wunsch_und_bedarf_fassade_passen");
+      }
+
+      if (states.has("interesse_kellerdecke") && states.has("bauteil_kritisch_keller")) {
+        states.add("wunsch_und_bedarf_keller_passen");
+      }
+
+      if (states.has("interesse_heizung") && states.has("heizung_kritisch")) {
+        states.add("wunsch_und_bedarf_heizung_passen");
+      }
+
+      if (states.has("interesse_pv") && states.has("interesse_speicher") && states.has("pv_fehlt")) {
+        states.add("pv_mit_speicher_konkret_pruefen");
+      }
+
+      // ---------- Budget + Wunschmaßnahmen ----------
+      let massnahmenCount = 0;
+      if (states.has("interesse_heizung")) massnahmenCount++;
+      if (states.has("interesse_dach")) massnahmenCount++;
+      if (states.has("interesse_fenster")) massnahmenCount++;
+      if (states.has("interesse_fassade")) massnahmenCount++;
+      if (states.has("interesse_kellerdecke")) massnahmenCount++;
+      if (states.has("interesse_pv")) massnahmenCount++;
+      if (states.has("interesse_wallbox")) massnahmenCount++;
+      if (states.has("interesse_elektrik")) massnahmenCount++;
+
+      if (massnahmenCount >= 4) states.add("viele_massnahmen_geplant");
+      if (massnahmenCount >= 6) states.add("sehr_viele_massnahmen_geplant");
+
+      if (states.has("budget_klein") && states.has("viele_massnahmen_geplant")) {
+        states.add("budget_und_wunschmassnahmen_passen_nicht_gut");
+      }
+
+      if (states.has("budget_mittel") && states.has("sehr_viele_massnahmen_geplant")) {
+        states.add("budget_und_wunschmassnahmen_nur_teilweise_stimmig");
+      }
+
+      if ((states.has("budget_gross") || states.has("budget_sehr_gross")) && states.has("viele_massnahmen_geplant")) {
+        states.add("budget_und_wunschmassnahmen_grundsaetzlich_stimmig");
+      }
+
+      if (states.has("budget_klein") && states.has("interesse_dach") && states.has("interesse_fassade")) {
+        states.add("zwei_grosse_huellenmassnahmen_bei_kleinem_budget_schwierig");
+      }
+
+      if (states.has("budget_klein") && states.has("interesse_heizung") && states.has("interesse_dach")) {
+        states.add("heizung_plus_dach_bei_kleinem_budget_schwierig");
+      }
+
+      if (states.has("budget_klein") && states.has("interesse_heizung") && states.has("interesse_fassade")) {
+        states.add("heizung_plus_fassade_bei_kleinem_budget_schwierig");
+      }
+
+      if (states.has("budget_klein") && states.has("interesse_pv") && states.has("interesse_speicher")) {
+        states.add("pv_mit_speicher_bei_kleinem_budget_eher_ambitioniert");
+      }
+
+      if (states.has("budget_klein") && states.has("interesse_wallbox") && states.has("interesse_elektrik")) {
+        states.add("wallbox_und_elektrik_bei_kleinem_budget_genau_priorisieren");
+      }
+
+      if (states.has("budget_mittel") && states.has("interesse_heizung") && states.has("interesse_pv")) {
+        states.add("heizung_und_pv_mit_mittlerem_budget_moeglich_aber_zu_priorisieren");
+      }
+
+      if ((states.has("budget_gross") || states.has("budget_sehr_gross")) && states.has("interesse_dach") && states.has("interesse_pv")) {
+        states.add("dach_und_pv_mit_budget_gut_buendelbar");
+      }
+
+      if ((states.has("budget_gross") || states.has("budget_sehr_gross")) && states.has("interesse_heizung") && states.has("interesse_fassade")) {
+        states.add("heizung_und_fassade_mit_hoeherem_budget_realistischer");
+      }
+
+      // ---------- Wunsch + technische Plausibilität ----------
+      if (states.has("interesse_heizung") && states.has("erst_huelle_dann_heizung")) {
+        states.add("wunsch_heizung_mit_reihenfolgehinweis");
+      }
+
+      if (states.has("interesse_pv") && states.has("dach_ungedaemmt")) {
+        states.add("wunsch_pv_am_besten_mit_dach_denken");
+      }
+
+      if (states.has("interesse_wallbox") && !states.has("eauto_relevant")) {
+        states.add("wallbox_ohne_eauto_derzeit_nachrangig");
+      }
+
+      if (states.has("interesse_elektrik") && !states.has("elektrik_kritisch") && states.has("elektrik_neu")) {
+        states.add("elektrik_wunsch_technisch_nicht_vordringlich");
+      }
+
+      if (states.has("interesse_fenster") && states.has("fenster_neu")) {
+        states.add("fenster_wunsch_technisch_nicht_vordringlich");
+      }
+
+      if (states.has("interesse_kellerdecke") && states.has("kellerdecke_gedaemmt")) {
+        states.add("kellerdecke_wunsch_technisch_nicht_vordringlich");
+      }
+
+      if (states.has("interesse_fassade") && states.has("fassade_gedaemmt")) {
+        states.add("fassade_wunsch_technisch_nicht_vordringlich");
+      }
+
+      if (states.has("interesse_dach") && states.has("dach_gut")) {
+        states.add("dach_wunsch_technisch_nicht_vordringlich");
+      }
+
+      // ---------- Komfort / Wert ----------
+      if (states.has("fenster_sehr_alt")) states.add("komfortverlust_wahrscheinlich");
+      if (states.has("dach_ungedaemmt")) states.add("waermeverlust_ueber_dach_hoch");
+      if (states.has("heizung_oel") || states.has("heizung_sehr_alt")) states.add("betriebskostenrisiko_hoch");
+      if (states.has("elektrik_kritisch")) states.add("wert_erhalt_technik_wichtig");
+
+      if (states.has("ziel_komfort") && states.has("fenster_sehr_alt")) {
+        states.add("ziel_komfort_passt_zu_fenstern");
+      }
+
+      if (states.has("ziel_wertsteigerung") && states.has("elektrik_kritisch")) {
+        states.add("ziel_wert_passt_zu_elektrik");
+      }
+
+      if (states.has("ziel_kosten") && states.has("heizung_kritisch")) {
+        states.add("ziel_kosten_passt_zu_heizung");
+      }
+
+      if (states.has("ziel_kosten") && states.has("pv_fehlt") && states.has("strombedarf_steigt")) {
+        states.add("ziel_kosten_passt_zu_pv");
+      }
+
+      // ---------- Gesamtzustand ----------
+      let problemScore = 0;
+      if (states.has("gebaeude_sehr_alt")) problemScore += 2;
+      if (states.has("gebaeude_alt")) problemScore += 1;
+      if (states.has("huelle_sehr_schwach")) problemScore += 3;
+      if (states.has("huelle_schwach")) problemScore += 2;
+      if (states.has("heizung_kritisch")) problemScore += 2;
+      if (states.has("elektrik_kritisch")) problemScore += 2;
+      if (states.has("wasserleitungen_kritisch")) problemScore += 2;
+
+      if (problemScore >= 5) states.add("haus_hat_grosse_potenziale");
+      if (problemScore >= 9) states.add("haus_hat_sehr_grosse_potenziale");
+
+      if (
+        (states.has("huelle_gut") || states.has("huelle_ordentlich")) &&
+        (states.has("heizung_relativ_neu") || states.has("heizung_sehr_neu") || states.has("heizung_waermepumpe")) &&
+        !states.has("elektrik_kritisch")
+      ) {
+        states.add("haus_gut_aufgestellt");
+      }
+
+      return states;
+    }
+
+    /*
+      ==========================================================
+      6. BLOCK 3 – BEWERTUNG -> MAßNAHMEN
+      ==========================================================
+    */
+
+    function deriveMeasures(states) {
+      const measures = [];
+
+      function addMeasure(id, title, reason, priority) {
+        if (!measures.some(m => m.id === id)) {
+          measures.push({ id, title, reason, priority });
+        }
+      }
+
+      // ---------- Top-Prioritäten ----------
+      if (states.has("heizung_kritisch")) {
+        addMeasure(
+          "heizung_modernisieren",
+          "Heizung modernisieren",
+          "Ihre aktuelle Heizsituation wirkt technisch oder wirtschaftlich überholt.",
+          1
+        );
+      }
+
+      if (states.has("elektrik_kritisch")) {
+        addMeasure(
+          "elektrik_modernisieren",
+          "Elektrik modernisieren",
+          "Eine veraltete elektrische Infrastruktur kann spätere Maßnahmen ausbremsen und sollte ernst genommen werden.",
+          1
+        );
+      }
+
+      if (states.has("wasserleitungen_kritisch")) {
+        addMeasure(
+          "wasserleitungen_erneuern",
+          "Wasserleitungen prüfen und ggf. erneuern",
+          "Sehr alte Leitungen können ein echtes Schadensrisiko darstellen.",
+          1
+        );
+      }
+
+      if (states.has("bauteil_kritisch_dach")) {
+        addMeasure(
+          "dach_daemmen",
+          "Dach dämmen bzw. Dach energetisch sanieren",
+          "Über das Dach kann besonders viel Wärme verloren gehen.",
+          1
+        );
+      }
+
+      if (states.has("huelle_sehr_schwach")) {
+        addMeasure(
+          "huelle_prioritaet_hoch",
+          "Gebäudehülle priorisiert verbessern",
+          "Mehrere Bauteile deuten gleichzeitig auf deutlichen energetischen Nachholbedarf hin.",
+          1
+        );
+      }
+
+      if (states.has("geg_dach_pruefen")) {
+        addMeasure(
+          "geg_hinweis_dach",
+          "GEG-Pflichten zum Dach prüfen",
+          "Beim Eigentümerwechsel können gesetzliche Anforderungen relevant werden.",
+          1
+        );
+      }
+
+      if (states.has("sanierung_jetzt_optimal")) {
+        addMeasure(
+          "sanierung_ganzheitlich",
+          "Maßnahmen möglichst gebündelt planen",
+          "Beim Neueinzug lassen sich viele Arbeiten einfacher und wirtschaftlicher umsetzen.",
+          1
+        );
+      }
+
+      if (states.has("erst_huelle_dann_heizung")) {
+        addMeasure(
+          "heizkonzept_gesamt",
+          "Heizkonzept ganzheitlich planen",
+          "Bevor die Heizung erneuert wird, sollte die Gebäudehülle mitgedacht werden.",
+          1
+        );
+      }
+
+      if (states.has("elektrik_zuerst")) {
+        addMeasure(
+          "elektrik_zuerst_massnahme",
+          "Elektrik vor stromintensiven Maßnahmen prüfen oder ertüchtigen",
+          "Gerade bei PV, Wallbox oder elektrischer Heiztechnik ist die elektrische Basis entscheidend.",
+          1
+        );
+      }
+
+      // ---------- Wärmepumpe ----------
+      if (states.has("waermepumpe_naheliegend")) {
+        addMeasure(
+          "waermepumpe_pruefen",
+          "Wärmepumpe prüfen",
+          "Die vorhandene Wärmeverteilung spricht dafür, dass eine Wärmepumpe interessant sein könnte.",
+          2
+        );
+      }
+
+      if (states.has("wp_besonders_sinnvoll") || states.has("wp_technisch_besonders_naheliegend")) {
+        addMeasure(
+          "waermepumpe_hoch",
+          "Wärmepumpe besonders ernsthaft in Betracht ziehen",
+          "Die Kombination aus alter Heizung und geeigneter Wärmeverteilung ist ein starkes Signal für eine Wärmepumpe.",
+          1
+        );
+      }
+
+      if (states.has("luft_luft_waermepumpe_naheliegend")) {
+        addMeasure(
+          "luft_luft_waermepumpe",
+          "Luft-Luft-Wärmepumpe prüfen",
+          "Bei einer Nachtspeicherheizung ist diese Lösung oft besonders naheliegend.",
+          1
+        );
+      }
+
+      if (states.has("waermepumpe_mit_heizkoerpern_herausfordernd")) {
+        addMeasure(
+          "wp_mit_heizkoerpern_pruefen",
+          "Wärmepumpe nur mit genauer Systemprüfung angehen",
+          "Bei Heizkörpern und gleichzeitig schwächerer Gebäudehülle kann eine Wärmepumpe funktionieren, braucht aber eine saubere Planung.",
+          2
+        );
+      }
+
+      // ---------- Gebäudehülle ----------
+      if (states.has("bauteil_kritisch_fenster")) {
+        addMeasure(
+          "fenster_erneuern",
+          "Fenstererneuerung prüfen",
+          "Sehr alte Fenster beeinflussen Komfort, Behaglichkeit und Energieverbrauch oft deutlich.",
+          2
+        );
+      }
+
+      if (states.has("bauteil_kritisch_fassade")) {
+        addMeasure(
+          "fassade_daemmen",
+          "Fassadendämmung prüfen",
+          "Eine ungedämmte Fassade kann ein großer Wärmeverlustfaktor sein.",
+          2
+        );
+      }
+
+      if (states.has("bauteil_kritisch_keller")) {
+        addMeasure(
+          "kellerdecke_daemmen",
+          "Kellerdecke dämmen",
+          "Diese Maßnahme ist oft vergleichsweise einfach umsetzbar und wirtschaftlich interessant.",
+          3
+        );
+      }
+
+      if (states.has("huelle_schwach") && !states.has("huelle_sehr_schwach")) {
+        addMeasure(
+          "huelle_optimieren",
+          "Gebäudehülle schrittweise verbessern",
+          "In der Hülle bestehen mehrere relevante Ansatzpunkte für Verbesserungen.",
+          2
+        );
+      }
+
+      // ---------- Technik ----------
+      if (states.has("elektrik_pruefen")) {
+        addMeasure(
+          "elektrik_check",
+          "Elektrische Infrastruktur prüfen",
+          "Vor zusätzlichen Stromanwendungen sollte die vorhandene Anlage fachlich bewertet werden.",
+          2
+        );
+      }
+
+      if (states.has("wasserleitungen_pruefen")) {
+        addMeasure(
+          "wasserleitungen_check",
+          "Wasserleitungen prüfen",
+          "Eine technische Prüfung kann helfen, spätere Überraschungen zu vermeiden.",
+          2
+        );
+      }
+
+      // ---------- PV / Strom ----------
+      if (states.has("pv_pruefen")) {
+        addMeasure(
+          "pv_installieren",
+          "Photovoltaikanlage prüfen",
+          "Eine PV-Anlage kann Energiekosten senken und die Zukunftsfähigkeit des Gebäudes verbessern.",
+          2
+        );
+      }
+
+      if (states.has("pv_besonders_sinnvoll")) {
+        addMeasure(
+          "pv_prioritaet_hoch",
+          "PV-Anlage besonders ernsthaft einplanen",
+          "Steigender Strombedarf macht PV besonders interessant.",
+          2
+        );
+      }
+
+      if (states.has("dachsanierung_mit_pv")) {
+        addMeasure(
+          "dach_und_pv_kombinieren",
+          "Dachsanierung und PV gemeinsam denken",
+          "Wenn das Dach ohnehin ein Thema ist, lassen sich Maßnahmen oft sinnvoll bündeln.",
+          1
+        );
+      }
+
+      if (states.has("pv_mit_speicher_konkret_pruefen")) {
+        addMeasure(
+          "pv_speicher_wunsch_passt",
+          "PV-Anlage mit Speicher als Gesamtlösung prüfen",
+          "Ihr Interesse an PV mit Speicher passt gut zur Situation, sollte aber als gemeinsames System gedacht werden.",
+          2
+        );
+      }
+
+      // ---------- Mobilität ----------
+      if (states.has("eauto_relevant")) {
+        addMeasure(
+          "wallbox_denken",
+          "Wallbox und Ladeinfrastruktur mitdenken",
+          "Bei vorhandenem oder geplantem E-Auto sollte die Ladeinfrastruktur frühzeitig eingeplant werden.",
+          3
+        );
+      }
+
+      if (states.has("wallbox_besonders_relevant")) {
+        addMeasure(
+          "wallbox_konkret",
+          "Wallbox konkret einplanen",
+          "Wallbox-Wunsch und Fahrzeugthema passen gut zusammen und sollten technisch vorbereitet werden.",
+          2
+        );
+      }
+
+      // ---------- Budget-Strategie ----------
+      if (states.has("budget_begrenzt")) {
+        addMeasure(
+          "budget_fokus",
+          "Maßnahmen mit gutem Verhältnis aus Wirkung und Aufwand priorisieren",
+          "Bei begrenztem Budget sollten zuerst besonders wirksame und wirtschaftliche Schritte betrachtet werden.",
+          2
+        );
+      }
+
+      if (states.has("budget_reicht_wohl_nicht_fuer_komplettpaket")) {
+        addMeasure(
+          "budget_realismus",
+          "Sanierung in sinnvolle Etappen aufteilen",
+          "Das genannte Budget wirkt im Verhältnis zum Sanierungsbedarf eher zu klein für ein großes Gesamtpaket.",
+          1
+        );
+      }
+
+      if (states.has("budget_nur_fuer_teilpakete_realistisch")) {
+        addMeasure(
+          "budget_teilpakete",
+          "Teilpakete statt Komplettsanierung priorisieren",
+          "Mit dem Budget sind wahrscheinlich gezielte Pakete realistischer als viele große Maßnahmen gleichzeitig.",
+          2
+        );
+      }
+
+      // ---------- Wunschmaßnahmen ----------
+      if (states.has("wunsch_und_bedarf_heizung_passen")) {
+        addMeasure(
+          "heizung_wunsch_passt",
+          "Heizungserneuerung konkret weiterverfolgen",
+          "Ihr Wunsch passt gut zum erkannten Zustand der vorhandenen Heizung.",
+          1
+        );
+      }
+
+      if (states.has("wunsch_und_bedarf_dach_passen")) {
+        addMeasure(
+          "dach_wunsch_passt",
+          "Dachmaßnahme konkret weiterverfolgen",
+          "Ihr Interesse an der Dachsanierung passt gut zum erkannten energetischen Bedarf.",
+          1
+        );
+      }
+
+      if (states.has("wunsch_und_bedarf_fenster_passen")) {
+        addMeasure(
+          "fenster_wunsch_passt",
+          "Fenstererneuerung konkret weiterverfolgen",
+          "Ihr Interesse an neuen Fenstern passt gut zur Gebäudesituation.",
+          2
+        );
+      }
+
+      if (states.has("wunsch_und_bedarf_fassade_passen")) {
+        addMeasure(
+          "fassade_wunsch_passt",
+          "Fassadenmaßnahme konkret weiterverfolgen",
+          "Ihr Interesse an der Fassade deckt sich mit dem erkannten energetischen Bedarf.",
+          2
+        );
+      }
+
+      if (states.has("wunsch_und_bedarf_keller_passen")) {
+        addMeasure(
+          "keller_wunsch_passt",
+          "Kellerdeckendämmung als Einstiegsmaßnahme prüfen",
+          "Diese Maßnahme kann gerade bei passendem Interesse ein guter erster Schritt sein.",
+          3
+        );
+      }
+
+      if (states.has("wunsch_und_bedarf_pv_passen")) {
+        addMeasure(
+          "pv_wunsch_passt",
+          "Photovoltaik konkret weiter prüfen",
+          "Ihr Interesse an PV passt gut zur aktuellen Gebäudesituation.",
+          2
+        );
+      }
+
+      if (states.has("wunsch_und_bedarf_elektrik_passen")) {
+        addMeasure(
+          "elektrik_wunsch_passt",
+          "Elektrik als Basismaßnahme vorziehen",
+          "Die gewünschte Modernisierung passt sehr gut zum erkannten technischen Bedarf.",
+          1
+        );
+      }
+
+      if (states.has("wunsch_heizung_mit_reihenfolgehinweis")) {
+        addMeasure(
+          "heizung_mit_reihenfolge",
+          "Heizungserneuerung erst mit sinnvoller Reihenfolge angehen",
+          "Der Heizungswunsch ist nachvollziehbar, sollte aber mit dem Zustand der Hülle abgestimmt werden.",
+          2
+        );
+      }
+
+      if (states.has("wunsch_pv_am_besten_mit_dach_denken")) {
+        addMeasure(
+          "pv_mit_dach_wunsch",
+          "PV nicht isoliert, sondern zusammen mit dem Dach betrachten",
+          "Bei Dachbedarf ist eine gemeinsame Planung meist wirtschaftlicher.",
+          2
+        );
+      }
+
+      if (states.has("wallbox_ohne_eauto_derzeit_nachrangig")) {
+        addMeasure(
+          "wallbox_nachrangig",
+          "Wallbox aktuell eher nachrangig betrachten",
+          "Ohne vorhandenes oder geplantes E-Auto ist diese Maßnahme im Moment meist nicht vordringlich.",
+          3
+        );
+      }
+
+      // ---------- Bestand ----------
+      if (states.has("sanierung_schrittweise")) {
+        addMeasure(
+          "sanierung_in_schritten",
+          "Sanierung sinnvoll staffeln",
+          "Auch im bewohnten Zustand lässt sich eine gute Reihenfolge entwickeln.",
+          3
+        );
+      }
+
+      return measures;
+    }
+
+    /*
+      ==========================================================
+      7. BLOCK 4 – PRIORISIERUNG / AUSGABE
+      ==========================================================
+    */
+
+    function prioritizeMeasures(measures) {
+      const sorted = [...measures].sort((a, b) => a.priority - b.priority);
+      const topMeasures = sorted.filter(m => m.priority === 1).slice(0, 6);
+      const otherMeasures = sorted.filter(m => m.priority >= 2);
+      return { topMeasures, otherMeasures };
+    }
+
+    function deriveInsights(states) {
+      const insights = [];
+
+      function addInsight(text) {
+        if (!insights.includes(text)) insights.push(text);
+      }
+
+      if (states.has("neueinzug")) {
+        addInsight("Was Sie heute sanieren können, sollten Sie nicht auf morgen verschieben. Beim Neueinzug lassen sich viele Maßnahmen einfacher und oft günstiger umsetzen.");
+      }
+
+      if (states.has("bestand_bewohnt")) {
+        addInsight("Auch im bewohnten Zustand lassen sich sinnvolle Maßnahmen Schritt für Schritt umsetzen – wichtig ist die richtige Reihenfolge.");
+      }
+
+      if (states.has("heizung_nachtspeicher")) {
+        addInsight("Eine Nachtspeicherheizung ist ein starkes Signal dafür, moderne Alternativen ernsthaft zu prüfen – insbesondere eine Luft-Luft-Wärmepumpe.");
+      }
+
+      if (states.has("heizung_oel") || states.has("heizung_sehr_alt")) {
+        addInsight("Eine sehr alte Heizung oder Ölheizung spricht klar dafür, den Heizungstausch frühzeitig zu prüfen.");
+      }
+
+      if (states.has("wp_besonders_sinnvoll") || states.has("wp_technisch_besonders_naheliegend")) {
+        addInsight("Fußbodenheizung und eine ältere Heizungsanlage sind oft eine sehr gute Ausgangslage für eine Wärmepumpe.");
+      }
+
+      if (states.has("waermepumpe_mit_heizkoerpern_herausfordernd")) {
+        addInsight("Heizkörper in einem unsanierten oder schwächer sanierten Gebäude können eine Wärmepumpe schwieriger machen. Das heißt nicht unmöglich, aber planungsintensiver.");
+      }
+
+      if (states.has("waermepumpe_erst_nach_huellenverbesserung_stark")) {
+        addInsight("Bei Heizkörpern und gleichzeitig schwacher Hülle wird eine Wärmepumpe häufig deutlich sinnvoller, wenn zuerst an der Gebäudehülle gearbeitet wird.");
+      }
+
+      if (states.has("geg_dach_pruefen")) {
+        addInsight("Bei ungedämmtem Dach und Neueinzug sollte geprüft werden, ob Anforderungen aus dem Gebäudeenergiegesetz relevant werden.");
+      }
+
+      if (states.has("fenster_sehr_alt")) {
+        addInsight("Sehr alte Fenster können den Wohnkomfort deutlich mindern. Ein Austausch verbessert oft Behaglichkeit und reduziert Zugluft.");
+      }
+
+      if (states.has("fassade_gedaemmt")) {
+        addInsight("Eine vorhandene Fassadendämmung ist eine gute Basis, auf der sich weitere Maßnahmen aufbauen lassen.");
+      }
+
+      if (states.has("kellerdecke_ungedaemmt")) {
+        addInsight("Eine Kellerdeckendämmung ist häufig eine vergleichsweise einfache Maßnahme und teils sogar in Eigenleistung umsetzbar.");
+      }
+
+      if (states.has("elektrik_kritisch")) {
+        addInsight("Eine Modernisierung der Elektrik kann wichtiger sein als manche energetische Einzelmaßnahme – besonders mit Blick auf PV, E-Auto oder Wärmepumpe.");
+      }
+
+      if (states.has("wasserleitungen_beim_einzug_pruefen")) {
+        addInsight("Sehr alte Wasserleitungen sollten beim Neueinzug genauer geprüft werden – das kann spätere Wasserschäden vermeiden.");
+      }
+
+      if (states.has("dachsanierung_mit_pv")) {
+        addInsight("Wenn das Dach ohnehin ein Thema ist, kann eine PV-Anlage im selben Zug besonders sinnvoll integriert werden.");
+      }
+
+      if (states.has("eauto_geplant")) {
+        addInsight("Bei geplantem E-Auto sollte früh geprüft werden, ob Elektrik und Ladeinfrastruktur ausreichend vorbereitet sind.");
+      }
+
+      if (states.has("erst_huelle_dann_heizung")) {
+        addInsight("Wenn sowohl Hülle als auch Heizung schwach sind, sollte die neue Heizung nicht losgelöst betrachtet werden. Sonst wird sie womöglich unnötig groß ausgelegt.");
+      }
+
+      if (states.has("pv_besonders_sinnvoll")) {
+        addInsight("PV wird besonders interessant, wenn künftig mehr Strom benötigt wird – etwa durch E-Mobilität oder elektrische Heiztechnik.");
+      }
+
+      if (states.has("budget_begrenzt")) {
+        addInsight("Bei begrenztem Budget ist eine klare Priorisierung entscheidend. Oft sind zuerst die Maßnahmen mit starkem Verhältnis aus Nutzen und Aufwand sinnvoll.");
+      }
+
+      if (states.has("budget_fuer_groessere_pakete")) {
+        addInsight("Mit dem angegebenen Budget können auch größere oder gebündelte Maßnahmenpakete realistisch in Betracht kommen.");
+      }
+
+      if (states.has("budget_und_wunschmassnahmen_passen_nicht_gut")) {
+        addInsight("Das genannte Budget und die Anzahl der gewünschten Maßnahmen wirken aktuell eher nicht deckungsgleich. Hier ist Priorisierung besonders wichtig.");
+      }
+
+      if (states.has("budget_und_wunschmassnahmen_nur_teilweise_stimmig")) {
+        addInsight("Das Budget kann einige Ihrer gewünschten Maßnahmen tragen, aber vermutlich nicht alle gleichzeitig.");
+      }
+
+      if (states.has("budget_und_wunschmassnahmen_grundsaetzlich_stimmig")) {
+        addInsight("Das Budget und die von Ihnen angedachten Maßnahmen passen grundsätzlich gut zusammen.");
+      }
+
+      if (states.has("zwei_grosse_huellenmassnahmen_bei_kleinem_budget_schwierig")) {
+        addInsight("Dach und Fassade gleichzeitig sind bei kleinem Budget meist schwer sinnvoll unterzubringen.");
+      }
+
+      if (states.has("heizung_plus_dach_bei_kleinem_budget_schwierig")) {
+        addInsight("Heizungstausch und Dachsanierung gleichzeitig sind bei kleinem Budget meist ambitioniert und sollten sauber priorisiert werden.");
+      }
+
+      if (states.has("heizung_plus_fassade_bei_kleinem_budget_schwierig")) {
+        addInsight("Heizung und Fassadendämmung zusammen können das Budget schnell sprengen, wenn nur ein kleiner Rahmen zur Verfügung steht.");
+      }
+
+      if (states.has("pv_mit_speicher_bei_kleinem_budget_eher_ambitioniert")) {
+        addInsight("PV mit Speicher ist bei kleinem Budget meist eher ambitioniert und sollte sehr genau gerechnet werden.");
+      }
+
+      if (states.has("wallbox_und_elektrik_bei_kleinem_budget_genau_priorisieren")) {
+        addInsight("Wallbox und Elektrik zusammen sind sinnvoll, müssen bei kleinem Budget aber sauber priorisiert werden.");
+      }
+
+      if (states.has("wunsch_und_bedarf_pv_passen")) {
+        addInsight("Ihr Interesse an Photovoltaik deckt sich gut mit dem erkannten Bedarf.");
+      }
+
+      if (states.has("wunsch_und_bedarf_elektrik_passen")) {
+        addInsight("Ihr Wunsch nach einer moderneren Elektrik passt gut zu den technischen Anforderungen des Gebäudes.");
+      }
+
+      if (states.has("pv_mit_speicher_konkret_pruefen")) {
+        addInsight("PV und Speicher sollten als Gesamtsystem betrachtet werden, nicht isoliert.");
+      }
+
+      if (states.has("heizung_alleine_wahrscheinlich_nicht_optimal")) {
+        addInsight("Ein reiner Heizungstausch dürfte bei der aktuellen Gebäudequalität alleine vermutlich nicht die beste Gesamtwirkung entfalten.");
+      }
+
+      if (states.has("goal_kosten_passt_zu_pv")) {
+        addInsight("Ihr Ziel Energiekosten zu senken passt gut zu einer stärkeren Betrachtung von PV.");
+      }
+
+      return insights;
+    }
+
+    function deriveBadges(states) {
+      const badges = [];
+
+      function addBadge(label) {
+        if (!badges.includes(label)) badges.push(label);
+      }
+
+      if (states.has("heizung_kritisch")) addBadge("Heizung");
+      if (states.has("huelle_schwach") || states.has("huelle_sehr_schwach")) addBadge("Gebäudehülle");
+      if (states.has("elektrik_kritisch") || states.has("elektrik_pruefen")) addBadge("Elektrik");
+      if (states.has("wasserleitungen_kritisch") || states.has("wasserleitungen_pruefen")) addBadge("Wasserleitungen");
+      if (states.has("pv_pruefen") || states.has("pv_besonders_sinnvoll")) addBadge("Photovoltaik");
+      if (states.has("waermepumpe_naheliegend") || states.has("wp_besonders_sinnvoll")) addBadge("Wärmepumpe");
+      if (states.has("sanierung_jetzt_optimal")) addBadge("Neueinzug nutzen");
+      if (states.has("sanierung_schrittweise")) addBadge("Schrittweise Planung");
+      if (states.has("budget_begrenzt")) addBadge("Budgetfokus");
+      if (states.has("budget_fuer_groessere_pakete")) addBadge("Größere Pakete möglich");
+      if (states.has("massnahmeninteresse_bekannt")) addBadge("Wunschmaßnahmen berücksichtigt");
+      if (states.has("budget_und_wunschmassnahmen_passen_nicht_gut")) addBadge("Budget vs. Wunsch kritisch");
+
+      return badges;
+    }
+
+    function buildSummary(states) {
+      let intro = "";
+      let middle = "";
+      let budgetText = "";
+      let conclusion = "";
+
+      if (states.has("neueinzug")) {
+        intro = "Sie befinden sich in einer besonders guten Ausgangslage, weil sich energetische Maßnahmen beim Neueinzug oft einfacher, schneller und wirtschaftlicher umsetzen lassen.";
+      } else {
+        intro = "Auch im bereits bewohnten Gebäude lassen sich sinnvolle energetische Verbesserungen umsetzen – besonders wichtig ist dabei eine kluge Reihenfolge.";
+      }
+
+      if (states.has("budget_begrenzt")) {
+        budgetText = "Ihr Budget spricht eher für eine saubere Priorisierung einzelner oder kleinerer Maßnahmenpakete.";
+      } else if (states.has("budget_fuer_groessere_pakete")) {
+        budgetText = "Mit dem angegebenen Budget kommen auch größere oder gebündelte Maßnahmenpakete in Betracht.";
+      }
+
+      if (states.has("budget_und_wunschmassnahmen_passen_nicht_gut")) {
+        middle = "Zwischen Budget und den aktuell gewünschten Maßnahmen besteht voraussichtlich eine Lücke. Hier sollte besonders klar priorisiert werden.";
+      } else if (states.has("budget_und_wunschmassnahmen_nur_teilweise_stimmig")) {
+        middle = "Ihr Budget passt grundsätzlich zu mehreren Ihrer Wünsche, wahrscheinlich aber eher in Form sinnvoller Etappen als als Komplettpaket.";
+      } else if (states.has("budget_und_wunschmassnahmen_grundsaetzlich_stimmig")) {
+        middle = "Budget und gewünschte Maßnahmen wirken grundsätzlich gut miteinander vereinbar.";
+      }
+
+      if (states.has("haus_hat_sehr_grosse_potenziale")) {
+        conclusion = "In Ihrem Gebäude zeigen mehrere Bereiche gleichzeitig deutlichen Modernisierungsbedarf. Eine strukturierte Gesamtstrategie ist hier besonders sinnvoll.";
+      } else if (states.has("haus_hat_grosse_potenziale")) {
+        conclusion = "Es gibt mehrere größere Ansatzpunkte, aus denen sich eine sinnvolle Maßnahmenreihenfolge ableiten lässt.";
+      } else if (states.has("haus_gut_aufgestellt")) {
+        conclusion = "Ihr Gebäude ist in mehreren Bereichen bereits gut aufgestellt. Im Vordergrund stehen eher gezielte Verbesserungen und Ergänzungen.";
+      } else {
+        conclusion = "Aus Ihren Angaben ergeben sich mehrere sinnvolle Ansatzpunkte, die jetzt Schritt für Schritt priorisiert werden können.";
+      }
+
+      return `
+        <p>${intro}</p>
+        ${budgetText ? `<p>${budgetText}</p>` : ""}
+        ${middle ? `<div class="result-highlight">${middle}</div>` : ""}
+        <p>${conclusion}</p>
+      `;
+    }
+
+    /*
+      ==========================================================
+      8. ERGEBNIS
+      ==========================================================
+    */
+
+    function calculateResult() {
+      const baseStates = deriveBaseStates(answers);
+      const evaluationStates = deriveEvaluationStates(baseStates);
+      const measures = deriveMeasures(evaluationStates);
+      const prioritized = prioritizeMeasures(measures);
+      const insights = deriveInsights(evaluationStates);
+      const badges = deriveBadges(evaluationStates);
+
+      renderResult({
+        baseStates,
+        evaluationStates,
+        measures,
+        prioritized,
+        insights,
+        badges
+      });
+    }
+
+    function renderResult(data) {
+      document.getElementById("questionContainer").style.display = "none";
+      document.getElementById("resultBox").style.display = "block";
+
+      document.getElementById("summaryBox").innerHTML = buildSummary(data.evaluationStates);
+
+      const topMeasuresEl = document.getElementById("topMeasures");
+      const otherMeasuresEl = document.getElementById("otherMeasures");
+      const insightsEl = document.getElementById("insights");
+      const badgeRowEl = document.getElementById("badgeRow");
+
+      topMeasuresEl.innerHTML = "";
+      otherMeasuresEl.innerHTML = "";
+      insightsEl.innerHTML = "";
+      badgeRowEl.innerHTML = "";
+
+      if (data.prioritized.topMeasures.length === 0) {
+        topMeasuresEl.innerHTML = "<li>Aktuell ergibt sich keine sehr dringende Maßnahme aus den Angaben.</li>";
+      } else {
+        data.prioritized.topMeasures.forEach(m => {
+          topMeasuresEl.innerHTML += `<li><strong>${m.title}:</strong> ${m.reason}</li>`;
+        });
+      }
+
+      if (data.prioritized.otherMeasures.length === 0) {
+        otherMeasuresEl.innerHTML = "<li>Es wurden aktuell keine weiteren Maßnahmen erkannt.</li>";
+      } else {
+        data.prioritized.otherMeasures.forEach(m => {
+          otherMeasuresEl.innerHTML += `<li><strong>${m.title}:</strong> ${m.reason}</li>`;
+        });
+      }
+
+      if (data.insights.length === 0) {
+        insightsEl.innerHTML = "<li>Aus Ihren Angaben ergeben sich aktuell keine zusätzlichen Hinweise.</li>";
+      } else {
+        data.insights.forEach(text => {
+          insightsEl.innerHTML += `<li>${text}</li>`;
+        });
+      }
+
+      if (data.badges.length === 0) {
+        badgeRowEl.innerHTML = `<span class="badge">Allgemeine Einschätzung</span>`;
+      } else {
+        data.badges.forEach(badge => {
+          badgeRowEl.innerHTML += `<span class="badge">${badge}</span>`;
+        });
+      }
+
+      const debugBox = document.getElementById("debugBox");
+      debugBox.textContent = JSON.stringify({
+        answers,
+        baseStates: [...data.baseStates],
+        evaluationStates: [...data.evaluationStates],
+        measures: data.measures
+      }, null, 2);
+
+      document.getElementById("resultBox").scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    renderQuestion();
+  </script>
+</body>
+</html>
