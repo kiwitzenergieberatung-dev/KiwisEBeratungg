@@ -18,34 +18,36 @@
 
     .wrapper {
       max-width: 980px;
-      margin: 40px auto;
+      margin: 24px auto;
       padding: 20px;
     }
 
     .card {
       background: #ffffff;
-      border-radius: 18px;
+      border-radius: 16px;
       box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
-      padding: 28px;
+      padding: 22px;
     }
 
     h1 {
       margin-top: 0;
       margin-bottom: 10px;
-      font-size: 2rem;
+      font-size: 1.8rem;
       text-align: center;
       color: #14532d;
+      line-height: 1.2;
     }
 
     .subtitle {
       text-align: center;
       color: #4b5563;
-      margin-bottom: 28px;
-      line-height: 1.5;
+      margin-bottom: 22px;
+      line-height: 1.45;
+      font-size: 0.98rem;
     }
 
     .progress-wrap {
-      margin-bottom: 28px;
+      margin-bottom: 22px;
     }
 
     .progress-info {
@@ -73,42 +75,45 @@
     }
 
     .question-box {
-      min-height: 320px;
+      min-height: 260px;
       display: flex;
       flex-direction: column;
       justify-content: center;
     }
 
     .question-title {
-      font-size: 1.5rem;
+      font-size: 1.35rem;
       font-weight: 700;
       margin-bottom: 8px;
       color: #111827;
+      line-height: 1.3;
     }
 
     .question-hint {
       color: #6b7280;
-      margin-bottom: 24px;
-      line-height: 1.5;
+      margin-bottom: 18px;
+      line-height: 1.45;
+      font-size: 0.96rem;
     }
 
     .answers {
       display: grid;
-      gap: 12px;
+      gap: 10px;
     }
 
-    .answer-btn {
-      width: 100%;
-      text-align: left;
-      border: 1px solid #d1d5db;
-      background: #fff;
-      color: #111827;
-      border-radius: 14px;
-      padding: 16px 18px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
+.answer-btn {
+  width: 100%;
+  text-align: left;
+  border: 1px solid #d1d5db;
+  background: #fff;
+  color: #111827;
+  border-radius: 12px;
+  padding: 14px 14px;
+  font-size: 0.98rem;
+  line-height: 1.35;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
 
     .answer-btn:hover {
       border-color: #16a34a;
@@ -121,29 +126,29 @@
       font-weight: 700;
     }
 
-    .input-wrap input {
-      width: 100%;
-      padding: 14px;
-      border: 1px solid #d1d5db;
-      border-radius: 12px;
-      font-size: 1rem;
-      margin-bottom: 14px;
-    }
+.input-wrap input {
+  width: 100%;
+  padding: 13px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  font-size: 1rem;
+  margin-bottom: 12px;
+}
 
-    .actions {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-top: 24px;
-    }
+.actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+}
 
-    button {
-      border: none;
-      border-radius: 12px;
-      padding: 14px 22px;
-      font-size: 1rem;
-      cursor: pointer;
-    }
+button {
+  border: none;
+  border-radius: 12px;
+  padding: 13px 18px;
+  font-size: 0.98rem;
+  cursor: pointer;
+}
 
     .btn-primary {
       background: #16a34a;
@@ -163,40 +168,40 @@
       background: #d1d5db;
     }
 
-    .result {
-      display: none;
-      margin-top: 28px;
-      background: #f0fdf4;
-      border: 1px solid #bbf7d0;
-      border-radius: 16px;
-      padding: 22px;
-    }
+.result {
+  display: none;
+  margin-top: 22px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 16px;
+  padding: 18px;
+}
 
     .result h2 {
       margin-top: 0;
       color: #166534;
     }
 
-    .summary-box,
-    .section-box {
-      background: #fff;
-      border: 1px solid #dcfce7;
-      border-radius: 12px;
-      padding: 18px;
-      margin-top: 16px;
-      line-height: 1.6;
-    }
+.summary-box,
+.section-box {
+  background: #fff;
+  border: 1px solid #dcfce7;
+  border-radius: 12px;
+  padding: 15px;
+  margin-top: 14px;
+  line-height: 1.55;
+}
 
-    .section-box h3 {
-      margin-top: 0;
-      margin-bottom: 10px;
-      color: #14532d;
-    }
+.section-box h3 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  color: #14532d;
+  font-size: 1.05rem;
+}
 
-    .measure-list {
-      margin: 0;
-      padding-left: 20px;
-    }
+.measure-list li {
+  margin-bottom: 8px;
+}
 
     .measure-list li {
       margin-bottom: 10px;
@@ -209,14 +214,14 @@
       margin-top: 14px;
     }
 
-    .badge {
-      background: #dcfce7;
-      color: #166534;
-      border-radius: 999px;
-      padding: 8px 12px;
-      font-size: 0.9rem;
-      font-weight: 700;
-    }
+.badge {
+  background: #dcfce7;
+  color: #166534;
+  border-radius: 999px;
+  padding: 7px 10px;
+  font-size: 0.84rem;
+  font-weight: 700;
+}
 
     .cta {
       text-align: center;
@@ -236,11 +241,11 @@
       background: #166534;
     }
 
-    .notice {
-      margin-top: 18px;
-      font-size: 0.9rem;
-      color: #6b7280;
-    }
+.notice {
+  margin-top: 16px;
+  font-size: 0.86rem;
+  color: #6b7280;
+}
 
     .debug {
       margin-top: 24px;
@@ -254,44 +259,191 @@
       white-space: pre-wrap;
     }
 
-    .small-note {
-      margin-top: 12px;
-      font-size: 0.92rem;
-      color: #6b7280;
-    }
+.small-note {
+  margin-top: 10px;
+  font-size: 0.88rem;
+  color: #6b7280;
+}
+.result-highlight {
+  margin-top: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: #ecfdf5;
+  border: 1px solid #bbf7d0;
+  color: #14532d;
+  line-height: 1.45;
+}
 
-    .result-highlight {
-      margin-top: 12px;
-      padding: 14px 16px;
-      border-radius: 12px;
-      background: #ecfdf5;
-      border: 1px solid #bbf7d0;
-      color: #14532d;
-    }
+/* 2) Diesen kompletten @media-Block ersetzen */
 
-    @media (max-width: 700px) {
-      .wrapper {
-        margin: 20px auto;
-        padding: 12px;
-      }
+@media (max-width: 700px) {
+  .wrapper {
+    margin: 10px auto;
+    padding: 8px;
+  }
 
-      .card {
-        padding: 18px;
-      }
+  .card {
+    padding: 14px;
+    border-radius: 14px;
+  }
 
-      h1 {
-        font-size: 1.6rem;
-      }
+  h1 {
+    font-size: 1.35rem;
+    margin-bottom: 8px;
+  }
 
-      .question-title {
-        font-size: 1.25rem;
-      }
+  .subtitle {
+    font-size: 0.92rem;
+    margin-bottom: 16px;
+  }
 
-      .progress-info {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-    }
+  .progress-wrap {
+    margin-bottom: 16px;
+  }
+
+  .progress-info {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    gap: 8px;
+  }
+
+  .progress-bar {
+    height: 10px;
+  }
+
+  .question-box {
+    min-height: 220px;
+  }
+
+  .question-title {
+    font-size: 1.1rem;
+    margin-bottom: 6px;
+  }
+
+  .question-hint {
+    font-size: 0.9rem;
+    margin-bottom: 14px;
+  }
+
+  .answers {
+    gap: 8px;
+  }
+
+  .answer-btn {
+    padding: 12px 12px;
+    font-size: 0.93rem;
+    border-radius: 10px;
+  }
+
+  .input-wrap input {
+    padding: 12px;
+    font-size: 0.96rem;
+    margin-bottom: 10px;
+  }
+
+  .actions {
+    gap: 8px;
+    margin-top: 14px;
+  }
+
+  button {
+    padding: 12px 14px;
+    font-size: 0.92rem;
+    flex: 1 1 auto;
+  }
+
+  .result {
+    padding: 14px;
+    margin-top: 16px;
+  }
+
+  .result h2 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+
+  .summary-box,
+  .section-box {
+    padding: 12px;
+    margin-top: 12px;
+  }
+
+  .section-box h3 {
+    font-size: 0.98rem;
+    margin-bottom: 6px;
+  }
+
+  .measure-list {
+    padding-left: 18px;
+  }
+
+  .measure-list li {
+    margin-bottom: 6px;
+    font-size: 0.92rem;
+  }
+
+  .badge-row {
+    gap: 8px;
+  }
+
+  .badge {
+    font-size: 0.8rem;
+    padding: 6px 9px;
+  }
+
+  .cta {
+    margin-top: 18px;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .notice {
+    margin-top: 14px;
+    font-size: 0.82rem;
+    line-height: 1.4;
+  }
+
+  .small-note {
+    font-size: 0.82rem;
+  }
+
+  .result-highlight {
+    padding: 10px 12px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .progress-info {
+    font-size: 0.8rem;
+  }
+
+  .question-title {
+    font-size: 1.02rem;
+  }
+
+  .answer-btn {
+    font-size: 0.9rem;
+    padding: 11px 11px;
+  }
+
+  button {
+    font-size: 0.9rem;
+    padding: 11px 12px;
+  }
+
+  .summary-box,
+  .section-box {
+    padding: 10px;
+  }
+
+  .measure-list li {
+    font-size: 0.9rem;
+  }
+}
+
   </style>
 </head>
 <body>
