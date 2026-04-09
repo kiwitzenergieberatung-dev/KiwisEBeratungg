@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -14,80 +16,72 @@
       font-family: Arial, sans-serif;
       background: #f3f4f6;
       color: #111827;
-      font-size: 15px;
     }
 
     .wrapper {
-      max-width: 760px;
-      margin: 18px auto;
-      padding: 10px;
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
     }
 
     .card {
       background: #ffffff;
-      border-radius: 14px;
-      box-shadow: 0 8px 22px rgba(0,0,0,0.08);
-      padding: 18px;
+      border-radius: 18px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+      padding: 28px;
     }
 
     h1 {
       margin-top: 0;
-      margin-bottom: 10px;
-      font-size: 1.55rem;
+      font-size: 2rem;
       text-align: center;
       color: #14532d;
-      line-height: 1.25;
     }
 
     .subtitle {
       text-align: center;
       color: #4b5563;
-      margin-bottom: 20px;
-      line-height: 1.45;
-      font-size: 0.95rem;
+      margin-bottom: 28px;
+      line-height: 1.5;
     }
 
     .field {
-      margin-bottom: 16px;
+      margin-bottom: 20px;
     }
 
     label {
       display: block;
       font-weight: 700;
-      margin-bottom: 6px;
-      font-size: 0.95rem;
+      margin-bottom: 8px;
     }
 
     select, input {
       width: 100%;
-      padding: 12px;
+      padding: 14px;
       border: 1px solid #d1d5db;
-      border-radius: 10px;
-      font-size: 0.98rem;
-      background: #fff;
+      border-radius: 12px;
+      font-size: 1rem;
     }
 
     .hint {
       margin-top: 6px;
-      font-size: 0.84rem;
+      font-size: 0.92rem;
       color: #6b7280;
-      line-height: 1.4;
     }
 
     .actions {
       display: flex;
-      gap: 10px;
+      gap: 12px;
       flex-wrap: wrap;
-      margin-top: 18px;
+      margin-top: 24px;
     }
 
     button {
       border: none;
-      border-radius: 10px;
-      padding: 12px 16px;
-      font-size: 0.95rem;
+      border-radius: 12px;
+      padding: 14px 22px;
+      font-size: 1rem;
       cursor: pointer;
-      flex: 1 1 180px;
     }
 
     .btn-primary {
@@ -110,62 +104,55 @@
 
     .result {
       display: none;
-      margin-top: 22px;
+      margin-top: 28px;
       background: #f0fdf4;
       border: 1px solid #bbf7d0;
-      border-radius: 14px;
-      padding: 16px;
+      border-radius: 16px;
+      padding: 22px;
     }
 
     .result h2 {
       margin-top: 0;
-      margin-bottom: 14px;
       color: #166534;
-      font-size: 1.2rem;
     }
 
     .result-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(140px, 1fr));
-      gap: 10px;
-      margin-top: 12px;
+      grid-template-columns: repeat(2, minmax(220px, 1fr));
+      gap: 14px;
+      margin-top: 18px;
     }
 
     .box {
       background: #fff;
       border: 1px solid #dcfce7;
-      border-radius: 10px;
-      padding: 12px;
+      border-radius: 12px;
+      padding: 16px;
     }
 
     .box-title {
-      font-size: 0.84rem;
+      font-size: 0.95rem;
       color: #4b5563;
-      margin-bottom: 5px;
-      line-height: 1.3;
+      margin-bottom: 6px;
     }
 
     .box-value {
-      font-size: 1.15rem;
+      font-size: 1.5rem;
       font-weight: 700;
-      line-height: 1.3;
-      word-break: break-word;
     }
 
     .explanation {
-      margin-top: 16px;
+      margin-top: 20px;
       background: #fff;
-      border-radius: 10px;
-      padding: 12px;
-      line-height: 1.55;
+      border-radius: 12px;
+      padding: 16px;
+      line-height: 1.6;
       border: 1px solid #dcfce7;
-      font-size: 0.92rem;
     }
 
     .cta {
       text-align: center;
-      margin-top: 18px;
-      font-size: 0.92rem;
+      margin-top: 22px;
     }
 
     .cta a {
@@ -179,78 +166,27 @@
     }
 
     .notice {
-      margin-top: 14px;
-      font-size: 0.82rem;
+      margin-top: 18px;
+      font-size: 0.9rem;
       color: #6b7280;
-      line-height: 1.45;
     }
 
     @media (max-width: 700px) {
-      body {
-        font-size: 14px;
-      }
-
-      .wrapper {
-        margin: 8px auto;
-        padding: 8px;
-      }
-
-      .card {
-        padding: 14px;
-        border-radius: 12px;
+      .result-grid {
+        grid-template-columns: 1fr;
       }
 
       h1 {
-        font-size: 1.3rem;
+        font-size: 1.6rem;
       }
 
-      .subtitle {
-        font-size: 0.88rem;
-        margin-bottom: 16px;
+      .wrapper {
+        margin: 20px auto;
+        padding: 12px;
       }
 
-      select, input {
-        padding: 10px;
-        font-size: 0.95rem;
-      }
-
-      button {
-        padding: 11px 14px;
-        font-size: 0.92rem;
-      }
-
-      .result {
-        padding: 14px;
-      }
-
-      .result-grid {
-        grid-template-columns: 1fr;
-        gap: 8px;
-      }
-
-      .box {
-        padding: 10px;
-      }
-
-      .box-title {
-        font-size: 0.8rem;
-      }
-
-      .box-value {
-        font-size: 1.05rem;
-      }
-
-      .explanation {
-        font-size: 0.88rem;
-        padding: 10px;
-      }
-
-      .cta {
-        font-size: 0.88rem;
-      }
-
-      .notice {
-        font-size: 0.78rem;
+      .card {
+        padding: 18px;
       }
     }
   </style>
@@ -275,7 +211,6 @@
           <option value="hydraulik">Hydraulischer Abgleich</option>
           <option value="kfw">KfW-Heizungsförderung</option>
           <option value="lueftung">Lüftungskonzept</option>
-          <option value="effizienzhaus">Sanieren zum KfW-Effizienzhaus</option>
           <option value="nonres">Nichtwohngebäude</option>
         </select>
       </div>
@@ -299,7 +234,7 @@
         <div class="result-grid">
           <div class="box">
             <div class="box-title">Leistung</div>
-            <div class="box-value" id="resultService" style="font-size:1rem;"></div>
+            <div class="box-value" id="resultService" style="font-size:1.1rem;"></div>
           </div>
 
           <div class="box">
@@ -331,7 +266,7 @@
         <div class="explanation" id="resultExplanation"></div>
 
         <div class="cta">
-          <div style="line-height: 1.7;">
+          <div style="line-height: 1.8;">
             <strong>Hier unverbindlich anfragen:</strong><br><br>
             Telefon: <a href="tel:015777055626">0157 77055626</a><br>
             E-Mail: <a href="mailto:kiwitz.energieberatung@gmail.com">kiwitz.energieberatung@gmail.com</a>
@@ -339,7 +274,7 @@
         </div>
 
         <div class="notice">
-          Hinweis: Diese Berechnung ist nicht verbindlich. Maßgeblich ist das individuelle Angebot. Sonstige Leistungen auf Anfrage.
+          Hinweis: Diese Berechnung ist nicht verbindlich. Maßgeblich ist das individuelle Angebot.Sonstige Leistungen auf Anfrage.
         </div>
       </div>
     </div>
@@ -405,13 +340,6 @@
         fundingType: "half",
         note: "Ab der zweiten Wohneinheit werden je 80,00 € netto zusätzlich berechnet."
       },
-      effizienzhaus: {
-        name: "Sanieren zum KfW-Effizienzhaus",
-        baseNet: 0,
-        extraUnitNet: 0,
-        fundingType: "custom",
-        note: "Für die Sanierung zum Effizienzhaus ist eine pauschale Preisangabe nicht möglich, da der Aufwand stark von der Größe des Gebäudes und der geplanten Effizienzhausstufe abhängt."
-      },
       nonres: {
         name: "Nichtwohngebäude",
         baseNet: 0,
@@ -456,10 +384,8 @@
         return;
       }
 
-      if (serviceKey === "nonres" || serviceKey === "effizienzhaus") {
-        const service = services[serviceKey];
-
-        document.getElementById("resultService").textContent = service.name;
+      if (serviceKey === "nonres") {
+        document.getElementById("resultService").textContent = "Nichtwohngebäude";
         document.getElementById("resultUnits").textContent = "-";
         document.getElementById("resultNet").textContent = "-";
         document.getElementById("resultGross").textContent = "-";
@@ -467,7 +393,8 @@
         document.getElementById("resultOwn").textContent = "Preis auf Anfrage";
 
         document.getElementById("resultExplanation").innerHTML = `
-          ${service.note}
+          Für Nichtwohngebäude ist eine pauschale Preisangabe nicht sinnvoll, da
+          der Aufwand stark von Größe, Nutzung und technischer Ausstattung abhängt.
           <br><br>
           Bitte kontaktieren Sie mich für ein individuelles Angebot.
         `;
@@ -545,3 +472,4 @@
   </script>
 </body>
 </html>
+
