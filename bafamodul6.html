@@ -189,6 +189,47 @@
     .full{grid-column:auto}
     .hero h1{font-size:23px}
   }
+
+  .subheading{
+    margin:4px 0 14px;
+    font-size:17px;
+    color:#1f2937;
+  }
+  .anlage-row{
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:14px;
+    margin-bottom:12px;
+    background:#fbfefc;
+  }
+  .anlage-row-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    margin-bottom:12px;
+  }
+  .anlage-row-head strong{
+    font-size:15px;
+  }
+  .remove-anlage{
+    background:#fef3f2;
+    color:#b42318;
+    border:1px solid #fecdca;
+    padding:7px 10px;
+    font-size:12px;
+  }
+  .reminder{
+    margin-top:18px;
+    background:#fff4ce;
+    border:1px solid #f2d36b;
+    border-radius:10px;
+    padding:12px 14px;
+    font-size:14px;
+    font-weight:700;
+    line-height:1.45;
+  }
+
 </style>
 </head>
 <body>
@@ -503,11 +544,84 @@
     <section class="card">
       <h2>6. Ergänzende Angaben</h2>
       <div class="inner">
+
+        <h3 class="subheading">Angaben zu den zu ersetzenden Bestandsanlagen</h3>
+
+        <div class="note">
+          Bitte geben Sie die Bestandsanlage(n) an, die durch die beantragte Neuanlage ersetzt werden sollen.
+        </div>
+
+        <div id="bestandsanlagenList">
+          <div class="anlage-row" data-anlage-index="1">
+            <div class="anlage-row-head">
+              <strong>Bestandsanlage 1</strong>
+            </div>
+            <div class="grid">
+              <div>
+                <label class="req">Hersteller</label>
+                <input name="bestandsanlage_1_hersteller" required placeholder="Hersteller">
+              </div>
+              <div>
+                <label class="req">Typbezeichnung</label>
+                <input name="bestandsanlage_1_typbezeichnung" required placeholder="Typbezeichnung">
+              </div>
+              <div>
+                <label class="req">Inbetriebnahmejahr</label>
+                <input name="bestandsanlage_1_inbetriebnahmejahr"
+                       type="number" min="1900" max="2100" required
+                       placeholder="z. B. 2016">
+              </div>
+              <div>
+                <label class="req">Energieträger</label>
+                <select name="bestandsanlage_1_energietraeger" required>
+                  <option value="">Bitte auswählen</option>
+                  <option>Diesel</option>
+                  <option>Benzin</option>
+                  <option>Flüssiggas / LPG</option>
+                  <option>Erdgas</option>
+                  <option>Heizöl</option>
+                  <option>Kohle</option>
+                  <option>Biomasse</option>
+                  <option>Strom</option>
+                  <option>Sonstiges</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button type="button" class="secondary" onclick="addBestandsanlage()">
+          + Weitere Bestandsanlage hinzufügen
+        </button>
+
+        <div style="height:22px"></div>
+
         <div class="grid">
+          <div class="full">
+            <label class="req">Verwendungszwecke der Neuanlage</label>
+            <textarea name="verwendungszweck_neuanlage" required
+              placeholder="Bitte kurz beschreiben, wofür die beantragte Neuanlage eingesetzt wird."></textarea>
+          </div>
+
+          <div>
+            <label class="req">Beihilfeart</label>
+            <select name="beihilfeart" required>
+              <option value="">Bitte auswählen</option>
+              <option>De-minimis</option>
+              <option>AGVO</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="req">Voraussichtliches Projektende</label>
+            <input name="voraussichtliches_projektende" type="date" required>
+          </div>
+
           <div class="full">
             <label>Weitere Bemerkungen</label>
             <textarea name="bemerkungen"></textarea>
           </div>
+
           <div>
             <label>Aktueller Jahresabschluss / Bilanz vorhanden?</label>
             <select name="abschluss_aktuell">
@@ -516,6 +630,7 @@
               <option>Nein</option>
             </select>
           </div>
+
           <div>
             <label>Vorjahresabschluss / Bilanz vorhanden?</label>
             <select name="abschluss_vorjahr">
@@ -552,6 +667,10 @@
           <strong>Datenschutz:</strong> Diese HTML-Datei sendet von sich aus keine Daten an einen Server.
           Die Schaltflächen erzeugen lokale Dateien bzw. einen E-Mail-Entwurf im Standard-Mailprogramm.
         </p>
+
+        <div class="reminder">
+          Bitte nicht vergessen, mir ein Foto der Bestandsanlage zukommen zu lassen.
+        </div>
       </div>
     </section>
 
@@ -649,9 +768,27 @@ function humanLabel(key){
     beteiligungsquoten:'Beteiligungsquoten', massnahme_land:'Maßnahmenstandort Land',
     massnahme_plz:'Maßnahmenstandort PLZ', massnahme_stadt:'Maßnahmenstandort Stadt',
     massnahme_strasse:'Maßnahmenstandort Straße', massnahme_hausnummer:'Maßnahmenstandort Hausnummer',
-    contracting:'Contracting', bemerkungen:'Bemerkungen', abschluss_aktuell:'Aktueller Jahresabschluss vorhanden',
+    contracting:'Contracting',
+    verwendungszweck_neuanlage:'Verwendungszwecke der Neuanlage',
+    beihilfeart:'Beihilfeart',
+    voraussichtliches_projektende:'Voraussichtliches Projektende',
+    bemerkungen:'Bemerkungen',
+    abschluss_aktuell:'Aktueller Jahresabschluss vorhanden',
     abschluss_vorjahr:'Vorjahresabschluss vorhanden'
   };
+
+  const match = key.match(/^bestandsanlage_(\d+)_(hersteller|typbezeichnung|inbetriebnahmejahr|energietraeger)$/);
+  if(match){
+    const nr = match[1];
+    const feld = {
+      hersteller:'Hersteller',
+      typbezeichnung:'Typbezeichnung',
+      inbetriebnahmejahr:'Inbetriebnahmejahr',
+      energietraeger:'Energieträger'
+    }[match[2]];
+    return `Bestandsanlage ${nr} – ${feld}`;
+  }
+
   return labels[key] || key;
 }
 
@@ -682,6 +819,67 @@ function createEmail(){
   window.location.href = `mailto:?subject=${subject}&body=${body}`;
 }
 
+
+let bestandsanlageCounter = 1;
+
+function addBestandsanlage(){
+  bestandsanlageCounter++;
+  const nr = bestandsanlageCounter;
+  const list = document.getElementById('bestandsanlagenList');
+
+  const row = document.createElement('div');
+  row.className = 'anlage-row';
+  row.dataset.anlageIndex = nr;
+
+  row.innerHTML = `
+    <div class="anlage-row-head">
+      <strong>Bestandsanlage ${nr}</strong>
+      <button type="button" class="remove-anlage" onclick="removeBestandsanlage(this)">
+        Anlage entfernen
+      </button>
+    </div>
+
+    <div class="grid">
+      <div>
+        <label class="req">Hersteller</label>
+        <input name="bestandsanlage_${nr}_hersteller" required placeholder="Hersteller">
+      </div>
+      <div>
+        <label class="req">Typbezeichnung</label>
+        <input name="bestandsanlage_${nr}_typbezeichnung" required placeholder="Typbezeichnung">
+      </div>
+      <div>
+        <label class="req">Inbetriebnahmejahr</label>
+        <input name="bestandsanlage_${nr}_inbetriebnahmejahr"
+               type="number" min="1900" max="2100" required
+               placeholder="z. B. 2016">
+      </div>
+      <div>
+        <label class="req">Energieträger</label>
+        <select name="bestandsanlage_${nr}_energietraeger" required>
+          <option value="">Bitte auswählen</option>
+          <option>Diesel</option>
+          <option>Benzin</option>
+          <option>Flüssiggas / LPG</option>
+          <option>Erdgas</option>
+          <option>Heizöl</option>
+          <option>Kohle</option>
+          <option>Biomasse</option>
+          <option>Strom</option>
+          <option>Sonstiges</option>
+        </select>
+      </div>
+    </div>
+  `;
+
+  list.appendChild(row);
+}
+
+function removeBestandsanlage(button){
+  const row = button.closest('.anlage-row');
+  if(row) row.remove();
+}
+
 function toggleKmu(){
   const kmu = document.getElementById('kmu').value;
   document.getElementById('kmuSizeWrap').classList.toggle('hidden', kmu === 'Nein');
@@ -709,6 +907,12 @@ document.getElementById('gj2024').addEventListener('change', ()=>toggleYear('202
 form.addEventListener('reset', ()=>{
   setTimeout(()=>{
     statusBox.className='status';
+
+    document.querySelectorAll('#bestandsanlagenList .anlage-row').forEach((row, index)=>{
+      if(index > 0) row.remove();
+    });
+    bestandsanlageCounter = 1;
+
     toggleKmu();
     toggleVerflechtung();
     toggleYear('2025');
