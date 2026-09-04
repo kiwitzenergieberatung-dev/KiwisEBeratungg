@@ -325,12 +325,91 @@
           </div>
           <div>
             <label class="req">Einordnung Antragsteller</label>
-            <select name="person_typ" required>
+            <select name="person_typ" id="person_typ" required>
               <option value="">Bitte auswählen</option>
               <option>natürliche Person</option>
               <option>juristische Person</option>
             </select>
           </div>
+
+          <!-- Nur bei natürlicher Person -->
+          <div id="natuerlichePersonWrap" class="full hidden">
+            <div class="yearbox">
+              <h3>Angaben zur natürlichen Person</h3>
+              <div class="grid">
+                <div>
+                  <label class="req">Geburtsdatum</label>
+                  <input type="date" name="geburtsdatum" id="geburtsdatum" disabled>
+                </div>
+                <div>
+                  <label class="req">11-stellige Steuer-ID</label>
+                  <input
+                    type="text"
+                    name="steuer_id"
+                    id="steuer_id"
+                    inputmode="numeric"
+                    autocomplete="off"
+                    maxlength="11"
+                    pattern="[0-9]{11}"
+                    placeholder="11-stellige Steuer-ID"
+                    disabled>
+                  <div class="hint">Bitte die persönliche 11-stellige Steuer-Identifikationsnummer angeben.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Nur bei juristischer Person -->
+          <div id="juristischePersonWrap" class="full hidden">
+            <div class="yearbox">
+              <h3>Steuerliche Angaben zur juristischen Person</h3>
+              <div class="grid">
+                <div class="full">
+                  <label class="req">Ich habe eine Steuernummer</label>
+                  <select name="hat_steuernummer" id="hat_steuernummer" disabled>
+                    <option value="">Bitte auswählen</option>
+                    <option>Ja</option>
+                    <option>Nein</option>
+                  </select>
+                </div>
+
+                <div id="steuernummerWrap" class="full hidden">
+                  <label class="req">Steuernummer</label>
+                  <input
+                    type="text"
+                    name="steuernummer"
+                    id="steuernummer"
+                    inputmode="numeric"
+                    autocomplete="off"
+                    placeholder="13-stellige ELSTER-Steuernummer"
+                    disabled>
+                  <div class="note" style="margin-top:10px;margin-bottom:0;">
+                    Sie können Ihre landesspezifische Steuernummer in die bundeseinheitliche
+                    13-stellige ELSTER-Steuernummer umwandeln. Dafür können Sie gerne den
+                    Online-Steuer-Umrechner nutzen unter:
+                    <br>
+                    <a href="https://www.ueberbrueckungshilfe-unternehmen.de/DE/Infothek/Steuernummer-Umrechner/steuernummer-umrechner.html"
+                       target="_blank" rel="noopener">
+                      Steuer-Umrechner öffnen
+                    </a>
+                  </div>
+                </div>
+
+                <div id="finanzamtWrap" class="full hidden">
+                  <label class="req">Finanzamtnummer</label>
+                  <input
+                    type="text"
+                    name="finanzamtnummer"
+                    id="finanzamtnummer"
+                    inputmode="numeric"
+                    autocomplete="off"
+                    placeholder="Finanzamtnummer"
+                    disabled>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div class="full">
             <label class="req">Gruppe der Antragsberechtigten</label>
             <select name="antragsgruppe" required>
@@ -598,9 +677,9 @@
 
         <div class="grid">
           <div class="full">
-            <label class="req">Verwendungszwecke der Neuanlage</label>
+            <label class="req">Daten der Neuanlage und Verwendungszweck</label>
             <textarea name="verwendungszweck_neuanlage" required
-              placeholder="Bitte kurz beschreiben, wofür die beantragte Neuanlage eingesetzt wird."></textarea>
+              placeholder="z.B. Hersteller, Typenbezeichnung "></textarea>
           </div>
 
           <div>
@@ -756,6 +835,11 @@ function humanLabel(key){
     wz_bezeichnung:'Haupttätigkeit / WZ-Bezeichnung', rechtsform:'Rechtsform',
     registernummer:'Registernummer', wirtschafts_id:'Wirtschafts-ID', ust_id:'USt-ID',
     vorsteuer:'Vorsteuerabzugsberechtigt', person_typ:'Einordnung Antragsteller',
+    geburtsdatum:'Geburtsdatum',
+    steuer_id:'11-stellige Steuer-ID',
+    hat_steuernummer:'Ich habe eine Steuernummer',
+    steuernummer:'Steuernummer',
+    finanzamtnummer:'Finanzamtnummer',
     antragsgruppe:'Gruppe der Antragsberechtigten', rolle:'Rolle Ansprechpartner',
     anrede:'Anrede', vorname:'Vorname', nachname:'Nachname', namenszusatz:'Namenszusatz',
     telefon:'Telefon', email_ansprechpartner:'E-Mail Ansprechpartner',
@@ -880,6 +964,69 @@ function removeBestandsanlage(button){
   if(row) row.remove();
 }
 
+function togglePersonTyp(){
+  const typ = document.getElementById('person_typ').value;
+
+  const natWrap = document.getElementById('natuerlichePersonWrap');
+  const jurWrap = document.getElementById('juristischePersonWrap');
+
+  const geburtsdatum = document.getElementById('geburtsdatum');
+  const steuerId = document.getElementById('steuer_id');
+  const hatSteuernummer = document.getElementById('hat_steuernummer');
+
+  const isNat = typ === 'natürliche Person';
+  const isJur = typ === 'juristische Person';
+
+  natWrap.classList.toggle('hidden', !isNat);
+  jurWrap.classList.toggle('hidden', !isJur);
+
+  geburtsdatum.disabled = !isNat;
+  steuerId.disabled = !isNat;
+  geburtsdatum.required = isNat;
+  steuerId.required = isNat;
+
+  hatSteuernummer.disabled = !isJur;
+  hatSteuernummer.required = isJur;
+
+  if(!isNat){
+    geburtsdatum.value = '';
+    steuerId.value = '';
+  }
+
+  if(!isJur){
+    hatSteuernummer.value = '';
+  }
+
+  toggleSteuernummer();
+}
+
+function toggleSteuernummer(){
+  const typ = document.getElementById('person_typ').value;
+  const auswahl = document.getElementById('hat_steuernummer').value;
+
+  const finanzamtWrap = document.getElementById('finanzamtWrap');
+  const steuernummerWrap = document.getElementById('steuernummerWrap');
+
+  const finanzamtnummer = document.getElementById('finanzamtnummer');
+  const steuernummer = document.getElementById('steuernummer');
+
+  const isJur = typ === 'juristische Person';
+  const showSteuernummer = isJur && auswahl === 'Ja';
+  const showFinanzamt = isJur && auswahl === 'Nein';
+
+  steuernummerWrap.classList.toggle('hidden', !showSteuernummer);
+  finanzamtWrap.classList.toggle('hidden', !showFinanzamt);
+
+  steuernummer.disabled = !showSteuernummer;
+  finanzamtnummer.disabled = !showFinanzamt;
+
+  steuernummer.required = showSteuernummer;
+  finanzamtnummer.required = showFinanzamt;
+
+  if(!showSteuernummer) steuernummer.value = '';
+  if(!showFinanzamt) finanzamtnummer.value = '';
+}
+
 function toggleKmu(){
   const kmu = document.getElementById('kmu').value;
   document.getElementById('kmuSizeWrap').classList.toggle('hidden', kmu === 'Nein');
@@ -899,6 +1046,8 @@ function toggleYear(year){
   });
 }
 
+document.getElementById('person_typ').addEventListener('change', togglePersonTyp);
+document.getElementById('hat_steuernummer').addEventListener('change', toggleSteuernummer);
 document.getElementById('kmu').addEventListener('change', toggleKmu);
 document.getElementById('unternehmensart').addEventListener('change', toggleVerflechtung);
 document.getElementById('gj2025').addEventListener('change', ()=>toggleYear('2025'));
@@ -913,6 +1062,7 @@ form.addEventListener('reset', ()=>{
     });
     bestandsanlageCounter = 1;
 
+    togglePersonTyp();
     toggleKmu();
     toggleVerflechtung();
     toggleYear('2025');
@@ -920,6 +1070,7 @@ form.addEventListener('reset', ()=>{
   },0);
 });
 
+togglePersonTyp();
 toggleKmu();
 toggleVerflechtung();
 toggleYear('2025');
